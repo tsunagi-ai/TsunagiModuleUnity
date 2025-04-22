@@ -12,5 +12,23 @@ namespace TsunagiModule.Goap
     {
         public ValueType type { get; }
         public GoapValue Operate(GoapValue other, Func<GoapValue, GoapValue> operationHandler);
+        public float GetAsFloat()
+        {
+            throw new NotImplementedException(
+                "GetAsFloat is not implemented for this GoapValue type."
+            );
+        }
+        public int GetAsInt()
+        {
+            throw new NotImplementedException(
+                "GetAsInt is not implemented for this GoapValue type."
+            );
+        }
+        public bool GetAsBool()
+        {
+            throw new NotImplementedException(
+                "GetAsBool is not implemented for this GoapValue type."
+            );
+        }
     }
 }

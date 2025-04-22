@@ -32,16 +32,16 @@ namespace TsunagiModule.Goap
 
         public bool IsSatisfied(State state)
         {
-            float valueComparing = state.GetValue(stateIndex);
+            GoapValue valueComparing = state.GetValue(stateIndex);
 
             switch (value.type)
             {
-                case GoapValue.ValueType.Float:
-                    return IsSatisfiedFloat(valueComparing);
-                case GoapValue.ValueType.Int:
-                    return IsSatisfiedInt(ValueConverter.ToInt(valueComparing));
-                case GoapValue.ValueType.Bool:
-                    return IsSatisfiedBool(ValueConverter.ToBool(valueComparing));
+                case ValueType.Float:
+                    return IsSatisfiedFloat(valueComparing.GetAsFloat());
+                case ValueType.Int:
+                    return IsSatisfiedInt(valueComparing.GetAsInt());
+                case ValueType.Bool:
+                    return IsSatisfiedBool(valueComparing.GetAsBool());
                 default:
                     throw new NotImplementedException("Unknown GoapValue.ValueType");
             }

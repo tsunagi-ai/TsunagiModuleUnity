@@ -28,5 +28,10 @@ namespace TsunagiModule.Goap
 
             return operationHandler(other);
         }
+
+        public bool GetAsBool()
+        {
+            return value;
+        }
     }
 }

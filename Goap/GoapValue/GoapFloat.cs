@@ -28,5 +28,10 @@ namespace TsunagiModule.Goap
 
             return operationHandler(other);
         }
+
+        public float GetAsFloat()
+        {
+            return value;
+        }
     }
 }
