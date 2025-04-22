@@ -13,14 +13,27 @@ namespace TsunagiModule.Goap
             this.operationHandler = operationHandler;
         }
 
-        public void Operate(State state)
+        public State Operate(State state, bool overwrite = true)
         {
+            // cloning or not
+            State stateTarget;
+            if (overwrite)
+            {
+                stateTarget = state;
+            }
+            else
+            {
+                stateTarget = state.Clone();
+            }
+
             // compute value
-            int valueState = state.GetValue(stateIndex).GetAsInt();
+            int valueState = stateTarget.GetValue(stateIndex).GetAsInt();
             int newValue = operationHandler(valueState);
 
             // update state
-            state.SetValue(stateIndex, new GoapInt(newValue));
+            stateTarget.SetValue(stateIndex, new GoapInt(newValue));
+
+            return stateTarget;
         }
     }
 }

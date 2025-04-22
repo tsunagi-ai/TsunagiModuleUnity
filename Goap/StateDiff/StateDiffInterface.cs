@@ -3,6 +3,6 @@ namespace TsunagiModule.Goap
     public interface StateDiffInterface
     {
         public string stateIndex { get; }
-        public void Operate(State state);
+        public State Operate(State state, bool overwrite = true);
     }
 }

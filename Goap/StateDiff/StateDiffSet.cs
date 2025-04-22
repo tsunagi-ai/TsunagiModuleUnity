@@ -9,12 +9,26 @@ namespace TsunagiModule.Goap
             this.stateDiffes = stateDiffes;
         }
 
-        public void Apply(State state)
+        public State Apply(State state, bool overwrite = true)
         {
+            // cloning or not
+            State stateTarget;
+            if (overwrite)
+            {
+                stateTarget = state;
+            }
+            else
+            {
+                stateTarget = state.Clone();
+            }
+
+            // apply all operations
             foreach (StateDiffInterface stateDiff in stateDiffes)
             {
-                stateDiff.Operate(state);
+                stateDiff.Operate(stateTarget, overwrite: true);
             }
+
+            return stateTarget;
         }
     }
 }
