@@ -11,10 +11,6 @@ namespace TsunagiModule.Goap
     public interface GoapValueInterface
     {
         public ValueType type { get; }
-        public GoapValueInterface Operate(
-            GoapValueInterface other,
-            Func<GoapValueInterface, GoapValueInterface, GoapValueInterface> operationHandler
-        );
         public float GetAsFloat()
         {
             throw new NotImplementedException(

@@ -16,22 +16,6 @@ namespace TsunagiModule.Goap
             get { return ValueType.Int; }
         }
 
-        public GoapValueInterface Operate(
-            GoapValueInterface other,
-            Func<GoapValueInterface, GoapValueInterface, GoapValueInterface> operationHandler
-        )
-        {
-            // type check
-            if (other.type != ValueType.Int)
-            {
-                throw new InvalidOperationException(
-                    "GoapInt can only operate with another GoapInt."
-                );
-            }
-
-            return operationHandler(this, other);
-        }
-
         public int GetAsInt()
         {
             return value;

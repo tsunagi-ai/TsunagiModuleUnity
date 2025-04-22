@@ -16,22 +16,6 @@ namespace TsunagiModule.Goap
             get { return ValueType.Bool; }
         }
 
-        public GoapValueInterface Operate(
-            GoapValueInterface other,
-            Func<GoapValueInterface, GoapValueInterface, GoapValueInterface> operationHandler
-        )
-        {
-            // type check
-            if (other.type != ValueType.Bool)
-            {
-                throw new InvalidOperationException(
-                    "GoapBool can only operate with another GoapBool."
-                );
-            }
-
-            return operationHandler(this, other);
-        }
-
         public bool GetAsBool()
         {
             return value;
