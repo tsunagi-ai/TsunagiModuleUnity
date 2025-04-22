@@ -8,11 +8,11 @@ namespace TsunagiModule.Goap
         /// <summary>
         /// Main body of state vector
         /// </summary>
-        private Dictionary<string, GoapValue> values { get; set; }
+        private Dictionary<string, GoapValueInterface> values { get; set; }
 
-        public GoapValue GetValue(string stateIndex)
+        public GoapValueInterface GetValue(string stateIndex)
         {
-            if (values.TryGetValue(stateIndex, out GoapValue value))
+            if (values.TryGetValue(stateIndex, out GoapValueInterface value))
             {
                 return value;
             }

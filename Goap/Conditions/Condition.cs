@@ -2,7 +2,7 @@ using System;
 
 namespace TsunagiModule.Goap
 {
-    public class Condition : ConditionInterface
+    public struct Condition : ConditionInterface
     {
         public enum ConditionOperator
         {
@@ -20,10 +20,14 @@ namespace TsunagiModule.Goap
         private const float EPSILON = 0.0001f;
 
         public string stateIndex { get; private set; }
-        public GoapValue value { get; private set; }
+        public GoapValueInterface value { get; private set; }
         public ConditionOperator conditionOperator { get; private set; }
 
-        public Condition(string stateIndex, GoapValue value, ConditionOperator conditionOperator)
+        public Condition(
+            string stateIndex,
+            GoapValueInterface value,
+            ConditionOperator conditionOperator
+        )
         {
             this.stateIndex = stateIndex;
             this.value = value;
@@ -32,7 +36,7 @@ namespace TsunagiModule.Goap
 
         public bool IsSatisfied(State state)
         {
-            GoapValue valueComparing = state.GetValue(stateIndex);
+            GoapValueInterface valueComparing = state.GetValue(stateIndex);
 
             switch (value.type)
             {

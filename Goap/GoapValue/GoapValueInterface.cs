@@ -8,10 +8,13 @@ namespace TsunagiModule.Goap
     /// <remarks>
     /// This is implemented for support integrated control of State Control, being independent of value type.
     /// </remarks>
-    public interface GoapValue
+    public interface GoapValueInterface
     {
         public ValueType type { get; }
-        public GoapValue Operate(GoapValue other, Func<GoapValue, GoapValue> operationHandler);
+        public GoapValueInterface Operate(
+            GoapValueInterface other,
+            Func<GoapValueInterface, GoapValueInterface> operationHandler
+        );
         public float GetAsFloat()
         {
             throw new NotImplementedException(

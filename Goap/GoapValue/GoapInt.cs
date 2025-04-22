@@ -2,7 +2,7 @@ using System;
 
 namespace TsunagiModule.Goap
 {
-    public struct GoapInt : GoapValue
+    public struct GoapInt : GoapValueInterface
     {
         public int value { get; private set; }
 
@@ -16,7 +16,10 @@ namespace TsunagiModule.Goap
             get { return ValueType.Int; }
         }
 
-        public GoapValue Operate(GoapValue other, Func<GoapValue, GoapValue> operationHandler)
+        public GoapValueInterface Operate(
+            GoapValueInterface other,
+            Func<GoapValueInterface, GoapValueInterface> operationHandler
+        )
         {
             // type check
             if (other.type != ValueType.Int)
