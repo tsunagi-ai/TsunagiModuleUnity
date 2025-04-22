@@ -28,36 +28,29 @@ namespace TsunagiModule.Goap
 
         public GoapValue(int value)
         {
-            this.value = value;
+            this.value = ValueConverter.ToFloat(value);
             type = ValueType.Int;
         }
 
         public GoapValue(bool value)
         {
-            this.value = value ? 1 : 0;
+            this.value = ValueConverter.ToFloat(value);
             type = ValueType.Bool;
         }
 
         public bool GetAsBool()
         {
-            return value > 0.5f;
+            return ValueConverter.ToBool(value);
         }
 
         public int GetAsInt()
         {
-            return (int)Math.Round(value);
+            return ValueConverter.ToInt(value);
         }
 
         public float GetAsFloat()
         {
-            if (type == ValueType.Float)
-                return value;
-            else if (type == ValueType.Int)
-                return (int)value;
-            else if (type == ValueType.Bool)
-                return value > 0 ? 1 : 0;
-            else
-                throw new NotImplementedException("Unknown GoapValue type.");
+            return value;
         }
     }
 }
