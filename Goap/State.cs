@@ -21,5 +21,10 @@ namespace TsunagiModule.Goap
                 throw new KeyNotFoundException($"State index '{stateIndex}' not found.");
             }
         }
+
+        public void SetValue(string stateIndex, GoapValueInterface value)
+        {
+            values[stateIndex] = value;
+        }
     }
 }
