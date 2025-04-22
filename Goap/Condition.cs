@@ -1,5 +1,4 @@
 using System;
-using NUnit.Framework;
 
 namespace TsunagiModule.Goap
 {
@@ -25,6 +24,21 @@ namespace TsunagiModule.Goap
 
         public bool IsSatisfied(float valueComparing)
         {
+            switch (value.type)
+            {
+                case GoapValue.ValueType.Float:
+                    return IsSatisfiedFloat(valueComparing);
+                case GoapValue.ValueType.Int:
+                    return IsSatisfiedInt(ValueConverter.ToInt(valueComparing));
+                case GoapValue.ValueType.Bool:
+                    return IsSatisfiedBool(ValueConverter.ToBool(valueComparing));
+                default:
+                    throw new NotImplementedException("Unknown GoapValue.ValueType");
+            }
+        }
+
+        private bool IsSatisfiedFloat(float valueComparing)
+        {
             switch (conditionOperator)
             {
                 case ConditionOperator.Larger:
@@ -38,8 +52,44 @@ namespace TsunagiModule.Goap
                 case ConditionOperator.Equal:
                     return IsEqualApproximately(value.GetAsFloat(), valueComparing);
                 default:
-                    Assert.IsTrue(false, "Unknown condition operator.");
-                    return false;
+                    throw new NotImplementedException("Unknown condition operator.");
+            }
+        }
+
+        private bool IsSatisfiedInt(int valueComparing)
+        {
+            switch (conditionOperator)
+            {
+                case ConditionOperator.Larger:
+                    return value.GetAsInt() < valueComparing;
+                case ConditionOperator.LargerOrEqual:
+                    return value.GetAsInt() <= valueComparing;
+                case ConditionOperator.Smaller:
+                    return value.GetAsInt() > valueComparing;
+                case ConditionOperator.SmallerOrEqual:
+                    return value.GetAsInt() >= valueComparing;
+                case ConditionOperator.Equal:
+                    return value.GetAsInt() == valueComparing;
+                default:
+                    throw new NotImplementedException("Unknown condition operator.");
+            }
+        }
+
+        private bool IsSatisfiedBool(bool valueComparing)
+        {
+            switch (conditionOperator)
+            {
+                case ConditionOperator.Equal:
+                    return value.GetAsBool() == valueComparing;
+                case ConditionOperator.Larger:
+                case ConditionOperator.LargerOrEqual:
+                case ConditionOperator.Smaller:
+                case ConditionOperator.SmallerOrEqual:
+                    throw new NotImplementedException(
+                        "Condition operator is not supported for bool type."
+                    );
+                default:
+                    throw new NotImplementedException("Unknown condition operator.");
             }
         }
 
