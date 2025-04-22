@@ -26,7 +26,7 @@ namespace TsunagiModule.Goap
             values[stateIndex] = value;
         }
 
-        public State Copy()
+        public State Clone()
         {
             return new State { values = new Dictionary<string, GoapValueInterface>(values) };
         }
