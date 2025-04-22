@@ -24,5 +24,20 @@ namespace TsunagiModule.Goap
         {
             return condition.IsSatisfied(state);
         }
+
+        public State Simulate(State state, bool overwrite = false)
+        {
+            if (overwrite)
+            {
+                stateDiffSet.Apply(state);
+                return state;
+            }
+            else
+            {
+                State newState = state.Clone();
+                stateDiffSet.Apply(newState);
+                return newState;
+            }
+        }
     }
 }
