@@ -1,6 +1,6 @@
 namespace TsunagiModule.Goap
 {
-    public class ConditionAnd : ConditionInterface
+    public struct ConditionAnd : ConditionInterface
     {
         public Condition[] conditions { get; private set; }
 
