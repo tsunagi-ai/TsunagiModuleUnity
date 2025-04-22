@@ -11,7 +11,7 @@ namespace TsunagiModule.Goap
 
         public bool IsSatisfied(State state)
         {
-            foreach (var condition in conditions)
+            foreach (Condition condition in conditions)
             {
                 if (condition.IsSatisfied(state))
                 {
