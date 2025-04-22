@@ -13,7 +13,7 @@ namespace TsunagiModule.Goap
         public ValueType type { get; }
         public GoapValueInterface Operate(
             GoapValueInterface other,
-            Func<GoapValueInterface, GoapValueInterface> operationHandler
+            Func<GoapValueInterface, GoapValueInterface, GoapValueInterface> operationHandler
         );
         public float GetAsFloat()
         {

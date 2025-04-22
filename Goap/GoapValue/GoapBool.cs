@@ -18,7 +18,7 @@ namespace TsunagiModule.Goap
 
         public GoapValueInterface Operate(
             GoapValueInterface other,
-            Func<GoapValueInterface, GoapValueInterface> operationHandler
+            Func<GoapValueInterface, GoapValueInterface, GoapValueInterface> operationHandler
         )
         {
             // type check
@@ -29,7 +29,7 @@ namespace TsunagiModule.Goap
                 );
             }
 
-            return operationHandler(other);
+            return operationHandler(this, other);
         }
 
         public bool GetAsBool()
