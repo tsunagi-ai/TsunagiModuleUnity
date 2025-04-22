@@ -1,9 +1,8 @@
-using System;
 using System.Collections.Generic;
 
 namespace TsunagiModule.Goap
 {
-    public class State
+    public struct State
     {
         /// <summary>
         /// Main body of state vector
@@ -25,6 +24,11 @@ namespace TsunagiModule.Goap
         public void SetValue(string stateIndex, GoapValueInterface value)
         {
             values[stateIndex] = value;
+        }
+
+        public State Copy()
+        {
+            return new State { values = new Dictionary<string, GoapValueInterface>(values) };
         }
     }
 }
