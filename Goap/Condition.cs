@@ -11,6 +11,7 @@ namespace TsunagiModule.Goap
             Smaller,
             SmallerOrEqual,
             Equal,
+            NotEqual,
         }
 
         /// <summary>
@@ -51,6 +52,8 @@ namespace TsunagiModule.Goap
                     return value.GetAsFloat() >= valueComparing;
                 case ConditionOperator.Equal:
                     return IsEqualApproximately(value.GetAsFloat(), valueComparing);
+                case ConditionOperator.NotEqual:
+                    return !IsEqualApproximately(value.GetAsFloat(), valueComparing);
                 default:
                     throw new NotImplementedException("Unknown condition operator.");
             }
@@ -70,6 +73,8 @@ namespace TsunagiModule.Goap
                     return value.GetAsInt() >= valueComparing;
                 case ConditionOperator.Equal:
                     return value.GetAsInt() == valueComparing;
+                case ConditionOperator.NotEqual:
+                    return value.GetAsInt() != valueComparing;
                 default:
                     throw new NotImplementedException("Unknown condition operator.");
             }
@@ -81,6 +86,8 @@ namespace TsunagiModule.Goap
             {
                 case ConditionOperator.Equal:
                     return value.GetAsBool() == valueComparing;
+                case ConditionOperator.NotEqual:
+                    return value.GetAsBool() != valueComparing;
                 case ConditionOperator.Larger:
                 case ConditionOperator.LargerOrEqual:
                 case ConditionOperator.Smaller:
