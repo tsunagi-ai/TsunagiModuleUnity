@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace TsunagiModule.Goap
 {
-    public class GoapSolver
+    public partial class GoapSolver
     {
         /// <summary>
         /// Pool of actions
