@@ -13,7 +13,7 @@ namespace TsunagiModule.Goap
             this.operationHandler = operationHandler;
         }
 
-        public State Operate(State state)
+        public void Operate(State state)
         {
             // compute value
             int valueState = state.GetValue(stateIndex).GetAsInt();
@@ -21,8 +21,6 @@ namespace TsunagiModule.Goap
 
             // update state
             state.SetValue(stateIndex, new GoapInt(newValue));
-
-            return state;
         }
     }
 }
