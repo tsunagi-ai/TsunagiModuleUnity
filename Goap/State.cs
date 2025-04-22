@@ -1,4 +1,12 @@
+using System;
+
 namespace TsunagiModule.Goap
 {
-    public abstract class State { }
+    public class State
+    {
+        public float GetValue(string stateIndex)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
