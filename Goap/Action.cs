@@ -19,5 +19,10 @@ namespace TsunagiModule.Goap
             this.stateDiffSet = stateDiffSet;
             this.cost = cost;
         }
+
+        public bool Available(State state)
+        {
+            return condition.IsSatisfied(state);
+        }
     }
 }
