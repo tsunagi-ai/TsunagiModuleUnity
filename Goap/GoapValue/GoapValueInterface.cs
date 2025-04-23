@@ -8,26 +8,9 @@ namespace TsunagiModule.Goap
     /// <remarks>
     /// This is implemented for support integrated control of State Control, being independent of value type.
     /// </remarks>
-    public interface GoapValueInterface
+    public interface GoapValueInterface<T>
     {
-        public ValueType type { get; }
-        public float GetAsFloat()
-        {
-            throw new NotImplementedException(
-                "GetAsFloat is not implemented for this GoapValue type."
-            );
-        }
-        public int GetAsInt()
-        {
-            throw new NotImplementedException(
-                "GetAsInt is not implemented for this GoapValue type."
-            );
-        }
-        public bool GetAsBool()
-        {
-            throw new NotImplementedException(
-                "GetAsBool is not implemented for this GoapValue type."
-            );
-        }
+        public Type type { get; }
+        public T value { get; set; } // getter and setter for value
     }
 }
