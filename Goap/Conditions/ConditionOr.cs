@@ -21,13 +21,13 @@ namespace TsunagiModule.Goap
             return false;
         }
 
-        public float EstimateDistance(State state)
+        public double EstimateDistance(State state)
         {
             // shortest distance
-            float min = float.MaxValue;
+            double min = double.MaxValue;
             foreach (ConditionInterface condition in conditions)
             {
-                float distance = condition.EstimateDistance(state);
+                double distance = condition.EstimateDistance(state);
                 if (distance < min)
                 {
                     min = distance;

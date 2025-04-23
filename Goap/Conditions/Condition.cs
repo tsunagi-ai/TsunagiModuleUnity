@@ -46,13 +46,13 @@ namespace TsunagiModule.Goap
             }
         }
 
-        public float EstimateDistance(State state)
+        public double EstimateDistance(State state)
         {
             // if already satisfied...
             if (IsSatisfied(state))
             {
                 // ... early return
-                return 0f;
+                return 0.0;
             }
 
             // not satisfied!
@@ -64,7 +64,7 @@ namespace TsunagiModule.Goap
                 // bool
                 if (valueGiven.value is bool valueGivenBool)
                 {
-                    return 1f;
+                    return 1.0;
                 }
                 // numeric
                 else if (valueGiven.value is IConvertible)
@@ -74,7 +74,7 @@ namespace TsunagiModule.Goap
                     double valueComparingDouble = Convert.ToDouble(valueComparing);
 
                     // compute distance
-                    return (float)Math.Abs(valueGivenDouble - valueComparingDouble);
+                    return Math.Abs(valueGivenDouble - valueComparingDouble);
                 }
                 else
                 {

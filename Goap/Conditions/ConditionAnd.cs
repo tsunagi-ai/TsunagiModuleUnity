@@ -23,16 +23,16 @@ namespace TsunagiModule.Goap
             return true;
         }
 
-        public float EstimateDistance(State state)
+        public double EstimateDistance(State state)
         {
             // square root of sum of squares
-            float sum = 0;
+            double sum = 0;
             foreach (ConditionInterface condition in conditions)
             {
-                float distance = condition.EstimateDistance(state);
+                double distance = condition.EstimateDistance(state);
                 sum += distance * distance;
             }
-            return (float)Math.Sqrt(sum);
+            return Math.Sqrt(sum);
         }
     }
 }
