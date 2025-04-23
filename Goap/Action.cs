@@ -5,13 +5,13 @@ namespace TsunagiModule.Goap
         public string name { get; private set; }
         public ConditionInterface condition { get; private set; }
         public StateDiffSet stateDiffSet { get; private set; }
-        public float cost { get; private set; }
+        public double cost { get; private set; }
 
         public Action(
             string name,
             ConditionInterface condition,
             StateDiffSet stateDiffSet,
-            float cost
+            double cost
         )
         {
             this.name = name;

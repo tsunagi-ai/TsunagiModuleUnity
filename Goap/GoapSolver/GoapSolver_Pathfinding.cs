@@ -10,15 +10,15 @@ namespace TsunagiModule.Goap
         {
             public State state;
             public AstarQueue parent;
-            public float currentCost;
-            public float heuristicCost;
-            public float totalCost => currentCost + heuristicCost;
+            public double currentCost;
+            public double heuristicCost;
+            public double totalCost => currentCost + heuristicCost;
 
             public AstarQueue(
                 State state,
                 AstarQueue parent,
-                float currentCost,
-                float heuristicCost
+                double currentCost,
+                double heuristicCost
             )
             {
                 this.state = state;
@@ -40,7 +40,7 @@ namespace TsunagiModule.Goap
         /// <summary>
         /// Cost estimation weights for each state index
         /// </summary>
-        private Dictionary<string, float> stateIndexCostWeights = new Dictionary<string, float>();
+        private Dictionary<string, double> stateIndexCostWeights = new Dictionary<string, double>();
 
         public Action[] Solve(State stateCurrent, ConditionInterface goal)
         {
@@ -50,13 +50,13 @@ namespace TsunagiModule.Goap
             throw new NotImplementedException("Solve method not implemented yet.");
         }
 
-        private Dictionary<string, float> ComputeCostWeights(State stateCurrent)
+        private Dictionary<string, double> ComputeCostWeights(State stateCurrent)
         {
             // state index -> cost per diff
-            Dictionary<string, float> largestCostPerDiff = new Dictionary<string, float>();
+            Dictionary<string, double> largestCostPerDiff = new Dictionary<string, double>();
             foreach (string stateIndex in stateCurrent.indices)
             {
-                largestCostPerDiff[stateIndex] = 0f;
+                largestCostPerDiff[stateIndex] = 0.0;
             }
 
             foreach (Action action in actionPool.Values)
@@ -64,7 +64,7 @@ namespace TsunagiModule.Goap
                 foreach (StateDiffInterface stateDiff in action.stateDiffSet.stateDiffes)
                 {
                     // get cost per diff
-                    float costPerDiff = Math.Abs(action.cost / stateDiff.diff);
+                    double costPerDiff = Math.Abs(action.cost / stateDiff.diff);
                     if (largestCostPerDiff[stateDiff.stateIndex] < costPerDiff)
                     {
                         largestCostPerDiff[stateDiff.stateIndex] = costPerDiff;
