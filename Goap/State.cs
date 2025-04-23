@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -24,9 +25,15 @@ namespace TsunagiModule.Goap
             }
         }
 
-        public void SetValue(string stateIndex, GoapValueInterface value)
+        public void SetValue<T>(string stateIndex, GoapValueInterface<T> value)
         {
             values[stateIndex] = value;
+        }
+
+        public void SetNumericValue<T>(string stateIndex, T value)
+            where T : struct, IConvertible, IComparable, IComparable<T>, IEquatable<T>
+        {
+            SetValue(stateIndex, new GoapValueNumeric<T>(value));
         }
 
         public State Clone()
