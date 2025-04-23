@@ -42,7 +42,7 @@ namespace TsunagiModule.Goap
         /// </summary>
         private Dictionary<string, float> stateIndexCostWeights = new Dictionary<string, float>();
 
-        public Action[] Solve(State stateCurrent, Condition goal)
+        public Action[] Solve(State stateCurrent, ConditionInterface goal)
         {
             // compute cost weights
             stateIndexCostWeights = ComputeCostWeights(stateCurrent);
