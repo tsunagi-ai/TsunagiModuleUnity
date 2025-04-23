@@ -25,7 +25,7 @@ namespace TsunagiModule.Goap
             }
         }
 
-        public void SetValue<T>(string stateIndex, GoapValueInterface<T> value)
+        public void SetValue(string stateIndex, GoapValueInterface value)
         {
             values[stateIndex] = value;
         }
