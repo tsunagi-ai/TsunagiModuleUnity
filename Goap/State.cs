@@ -31,9 +31,10 @@ namespace TsunagiModule.Goap
         }
 
         public void SetNumericValue<T>(string stateIndex, T value)
-            where T : struct, IConvertible, IComparable, IComparable<T>, IEquatable<T>
+            where T : struct
         {
-            SetValue(stateIndex, new GoapValueNumeric<T>(value));
+            // wrapping
+            SetValue(stateIndex, new GoapValue<T>(value));
         }
 
         public State Clone()

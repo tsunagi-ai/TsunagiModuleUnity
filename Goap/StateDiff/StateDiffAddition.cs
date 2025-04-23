@@ -30,7 +30,7 @@ namespace TsunagiModule.Goap
             GoapValueInterface targetValueInterface = stateTarget.GetValue(stateIndex);
 
             // if both are same type...
-            if (targetValueInterface is GoapValueInterface<T> targetValue)
+            if (targetValueInterface is GoapValue<T> targetValue)
             {
                 // ...operate addtion
 
