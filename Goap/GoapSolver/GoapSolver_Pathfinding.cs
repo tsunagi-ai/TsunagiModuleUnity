@@ -73,5 +73,10 @@ namespace TsunagiModule.Goap
             }
             return largestCostPerDiff;
         }
+
+        private double EstimateCost(State state, ConditionInterface goal)
+        {
+            return goal.EstimateDistance(state);
+        }
     }
 }
