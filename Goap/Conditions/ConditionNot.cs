@@ -2,9 +2,9 @@ namespace TsunagiModule.Goap
 {
     public struct ConditionNot : ConditionInterface
     {
-        public Condition condition { get; private set; }
+        public ConditionInterface condition { get; private set; }
 
-        public ConditionNot(Condition condition)
+        public ConditionNot(ConditionInterface condition)
         {
             this.condition = condition;
         }

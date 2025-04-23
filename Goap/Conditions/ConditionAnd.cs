@@ -2,16 +2,16 @@ namespace TsunagiModule.Goap
 {
     public struct ConditionAnd : ConditionInterface
     {
-        public Condition[] conditions { get; private set; }
+        public ConditionInterface[] conditions { get; private set; }
 
-        public ConditionAnd(Condition[] conditions)
+        public ConditionAnd(ConditionInterface[] conditions)
         {
             this.conditions = conditions;
         }
 
         public bool IsSatisfied(State state)
         {
-            foreach (Condition condition in conditions)
+            foreach (ConditionInterface condition in conditions)
             {
                 if (!condition.IsSatisfied(state))
                 {
