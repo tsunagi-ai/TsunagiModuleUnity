@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TsunagiModule.Goap
 {
@@ -8,6 +9,8 @@ namespace TsunagiModule.Goap
         /// Main body of state vector
         /// </summary>
         private Dictionary<string, GoapValueInterface> values { get; set; }
+
+        public string[] indices => values.Keys.ToArray();
 
         public GoapValueInterface GetValue(string stateIndex)
         {
