@@ -2,7 +2,8 @@ using System;
 
 namespace TsunagiModule.Goap
 {
-    public struct Condition : ConditionInterface
+    public struct Condition<T> : ConditionInterface
+        where T : struct
     {
         public enum ConditionOperator
         {
@@ -14,111 +15,119 @@ namespace TsunagiModule.Goap
             NotEqual,
         }
 
-        /// <summary>
-        /// error acceptance value for float comparison.
-        /// </summary>
-        private const float EPSILON = 0.0001f;
-
         public string stateIndex { get; private set; }
-        public GoapValueInterface value { get; private set; }
-        public ConditionOperator conditionOperator { get; private set; }
+        public T valueComparing { get; set; }
+        public ConditionOperator conditionOperator { get; set; }
 
-        public Condition(
-            string stateIndex,
-            GoapValueInterface value,
-            ConditionOperator conditionOperator
-        )
+        public Condition(string stateIndex, T valueComparing, ConditionOperator conditionOperator)
         {
             this.stateIndex = stateIndex;
-            this.value = value;
+            this.valueComparing = valueComparing;
             this.conditionOperator = conditionOperator;
         }
 
         public bool IsSatisfied(State state)
         {
-            GoapValueInterface valueComparing = state.GetValue(stateIndex);
+            GoapValueInterface valueGivenInterface = state.GetValue(stateIndex);
 
-            switch (value.type)
+            // if type check passed...
+            if (valueGivenInterface is GoapValue<T> valueGiven)
             {
-                case ValueType.Float:
-                    return IsSatisfiedFloat(valueComparing.GetAsFloat());
-                case ValueType.Int:
-                    return IsSatisfiedInt(valueComparing.GetAsInt());
-                case ValueType.Bool:
-                    return IsSatisfiedBool(valueComparing.GetAsBool());
-                default:
-                    throw new NotImplementedException("Unknown GoapValue.ValueType");
+                // ...compare value
+                return Compare(valueGiven.value, valueComparing);
+            }
+            // if different type...
+            else
+            {
+                // ...panic
+                throw new InvalidCastException(
+                    $"State index '{stateIndex}' is not of type '{typeof(T)}'."
+                );
             }
         }
 
-        private bool IsSatisfiedFloat(float valueComparing)
+        private bool Compare(T valueGiven, T valueComparing)
         {
-            switch (conditionOperator)
-            {
-                case ConditionOperator.Larger:
-                    return value.GetAsFloat() < valueComparing;
-                case ConditionOperator.LargerOrEqual:
-                    return value.GetAsFloat() <= valueComparing;
-                case ConditionOperator.Smaller:
-                    return value.GetAsFloat() > valueComparing;
-                case ConditionOperator.SmallerOrEqual:
-                    return value.GetAsFloat() >= valueComparing;
-                case ConditionOperator.Equal:
-                    return IsEqualApproximately(value.GetAsFloat(), valueComparing);
-                case ConditionOperator.NotEqual:
-                    return !IsEqualApproximately(value.GetAsFloat(), valueComparing);
-                default:
-                    throw new NotImplementedException("Unknown condition operator.");
-            }
-        }
-
-        private bool IsSatisfiedInt(int valueComparing)
-        {
-            switch (conditionOperator)
-            {
-                case ConditionOperator.Larger:
-                    return value.GetAsInt() < valueComparing;
-                case ConditionOperator.LargerOrEqual:
-                    return value.GetAsInt() <= valueComparing;
-                case ConditionOperator.Smaller:
-                    return value.GetAsInt() > valueComparing;
-                case ConditionOperator.SmallerOrEqual:
-                    return value.GetAsInt() >= valueComparing;
-                case ConditionOperator.Equal:
-                    return value.GetAsInt() == valueComparing;
-                case ConditionOperator.NotEqual:
-                    return value.GetAsInt() != valueComparing;
-                default:
-                    throw new NotImplementedException("Unknown condition operator.");
-            }
-        }
-
-        private bool IsSatisfiedBool(bool valueComparing)
-        {
+            // delegate to corresponding comparison method
             switch (conditionOperator)
             {
                 case ConditionOperator.Equal:
-                    return value.GetAsBool() == valueComparing;
                 case ConditionOperator.NotEqual:
-                    return value.GetAsBool() != valueComparing;
+                    // if operation available...
+                    if (valueGiven is IEquatable<T> valueGivenEquatable)
+                    {
+                        // ...compare value
+                        return CompareEquatable(valueGivenEquatable, valueComparing);
+                    }
+                    else
+                    {
+                        // ...panic
+                        throw new InvalidOperationException(
+                            $"Condition operator '{conditionOperator}' is not supported for type '{typeof(T)}'."
+                        );
+                    }
                 case ConditionOperator.Larger:
                 case ConditionOperator.LargerOrEqual:
                 case ConditionOperator.Smaller:
                 case ConditionOperator.SmallerOrEqual:
+                    // if operation available...
+                    if (valueGiven is IComparable<T> valueGivenComparable)
+                    {
+                        // ...compare value
+                        return CompareComparable(valueGivenComparable, valueComparing);
+                    }
+                    else
+                    {
+                        // ...panic
+                        throw new InvalidOperationException(
+                            $"Condition operator '{conditionOperator}' is not supported for type '{typeof(T)}'."
+                        );
+                    }
+                default:
+                    // ...panic
                     throw new NotImplementedException(
-                        "Condition operator is not supported for bool type."
+                        $"Condition operator '{conditionOperator}' not implemented yet."
                     );
-                default:
-                    throw new NotImplementedException("Unknown condition operator.");
             }
         }
 
-        /// <summary>
-        /// Equality check for float values.
-        /// </summary>
-        private bool IsEqualApproximately(float a, float b)
+        private bool CompareEquatable(IEquatable<T> valueGivenEquatable, T valueComparing)
         {
-            return Math.Abs(a - b) < EPSILON;
+            switch (conditionOperator)
+            {
+                case ConditionOperator.Equal:
+                    return valueGivenEquatable.Equals(valueComparing);
+                case ConditionOperator.NotEqual:
+                    return !valueGivenEquatable.Equals(valueComparing);
+                default:
+                    throw new NotImplementedException(
+                        $"Condition operator '{conditionOperator}' not implemented yet."
+                    );
+            }
+        }
+
+        private bool CompareComparable(IComparable<T> valueGivenComparable, T valueComparing)
+        {
+            // https://learn.microsoft.com/en-us/dotnet/api/system.icomparable?view=net-9.0
+            // A.CompareTo(B) < 0 means A < B
+            // A.CompareTo(B) == 0 means A == B
+            // A.CompareTo(B) > 0 means A > B
+
+            switch (conditionOperator)
+            {
+                case ConditionOperator.Larger:
+                    return valueGivenComparable.CompareTo(valueComparing) > 0;
+                case ConditionOperator.LargerOrEqual:
+                    return valueGivenComparable.CompareTo(valueComparing) >= 0;
+                case ConditionOperator.Smaller:
+                    return valueGivenComparable.CompareTo(valueComparing) < 0;
+                case ConditionOperator.SmallerOrEqual:
+                    return valueGivenComparable.CompareTo(valueComparing) <= 0;
+                default:
+                    throw new NotImplementedException(
+                        $"Condition operator '{conditionOperator}' not implemented yet."
+                    );
+            }
         }
     }
 }
