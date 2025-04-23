@@ -46,6 +46,44 @@ namespace TsunagiModule.Goap
             }
         }
 
+        public float EstimateDistance(State state)
+        {
+            GoapValueInterface valueGivenInterface = state.GetValue(stateIndex);
+            // if type check passed...
+            if (valueGivenInterface is GoapValue<T> valueGiven)
+            {
+                // bool
+                if (valueGiven.value is bool valueGivenBool)
+                {
+                    return valueGivenBool.Equals(valueComparing) ? 1f : 0f;
+                }
+                // numeric
+                else if (valueGiven.value is IConvertible)
+                {
+                    // convert to double
+                    double valueGivenDouble = Convert.ToDouble(valueGiven.value);
+                    double valueComparingDouble = Convert.ToDouble(valueComparing);
+
+                    // compute distance
+                    return (float)Math.Abs(valueGivenDouble - valueComparingDouble);
+                }
+                else
+                {
+                    throw new NotImplementedException(
+                        $"Condition operator '{conditionOperator}' not implemented yet."
+                    );
+                }
+            }
+            // if different type...
+            else
+            {
+                // ...panic
+                throw new InvalidCastException(
+                    $"State index '{stateIndex}' is not of type '{typeof(T)}'."
+                );
+            }
+        }
+
         private bool Compare(T valueGiven, T valueComparing)
         {
             // delegate to corresponding comparison method
