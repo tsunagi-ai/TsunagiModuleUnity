@@ -48,6 +48,15 @@ namespace TsunagiModule.Goap
 
         public float EstimateDistance(State state)
         {
+            // if already satisfied...
+            if (IsSatisfied(state))
+            {
+                // ... early return
+                return 0f;
+            }
+
+            // not satisfied!
+
             GoapValueInterface valueGivenInterface = state.GetValue(stateIndex);
             // if type check passed...
             if (valueGivenInterface is GoapValue<T> valueGiven)
@@ -55,7 +64,7 @@ namespace TsunagiModule.Goap
                 // bool
                 if (valueGiven.value is bool valueGivenBool)
                 {
-                    return valueGivenBool.Equals(valueComparing) ? 1f : 0f;
+                    return 1f;
                 }
                 // numeric
                 else if (valueGiven.value is IConvertible)
