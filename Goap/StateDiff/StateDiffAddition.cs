@@ -7,6 +7,7 @@ namespace TsunagiModule.Goap
     {
         public string stateIndex { get; private set; }
         public T additionValue { get; set; }
+        public float diff => Convert.ToSingle(additionValue);
 
         public StateDiffAddition(string stateIndex, T additionValue)
         {

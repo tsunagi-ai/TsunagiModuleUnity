@@ -8,6 +8,7 @@ namespace TsunagiModule.Goap
     {
         public string stateIndex { get; private set; }
         public Dictionary<T, T> mapping { get; set; }
+        public float diff => 1f;
 
         public StateDiffMapping(string stateIndex, Dictionary<T, T> mapping)
         {
