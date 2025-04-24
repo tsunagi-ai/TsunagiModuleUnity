@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace TsunagiModule.Goap
 {
@@ -46,7 +47,7 @@ namespace TsunagiModule.Goap
             }
         }
 
-        public double EstimateDistance(State state)
+        public double EstimateCost(State state, Dictionary<string, double> costPerDiffes = null)
         {
             // if already satisfied...
             if (IsSatisfied(state))
@@ -57,14 +58,28 @@ namespace TsunagiModule.Goap
 
             // not satisfied!
 
+            // get weight
+            double costPerDiff = 1.0;
+            // if corresponding weight given...
+            if (
+                (costPerDiffes != null)
+                && costPerDiffes.TryGetValue(stateIndex, out double weightFound)
+            )
+            {
+                // ...use it
+                costPerDiff = weightFound;
+            }
+
+            // compute distance
+            double distance = 0.0;
             GoapValueInterface valueGivenInterface = state.GetValue(stateIndex);
             // if type check passed...
             if (valueGivenInterface is GoapValue<T> valueGiven)
             {
                 // bool
-                if (valueGiven.value is bool valueGivenBool)
+                if (valueGiven.value is bool)
                 {
-                    return 1.0;
+                    distance = 1.0;
                 }
                 // numeric
                 else if (valueGiven.value is IConvertible)
@@ -74,7 +89,7 @@ namespace TsunagiModule.Goap
                     double valueComparingDouble = Convert.ToDouble(valueComparing);
 
                     // compute distance
-                    return Math.Abs(valueGivenDouble - valueComparingDouble);
+                    distance = Math.Abs(valueGivenDouble - valueComparingDouble);
                 }
                 else
                 {
@@ -91,6 +106,8 @@ namespace TsunagiModule.Goap
                     $"State index '{stateIndex}' is not of type '{typeof(T)}'."
                 );
             }
+
+            return distance * costPerDiff;
         }
 
         private bool Compare(T valueGiven, T valueComparing)

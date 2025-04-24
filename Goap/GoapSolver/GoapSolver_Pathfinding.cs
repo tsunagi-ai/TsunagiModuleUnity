@@ -151,7 +151,7 @@ namespace TsunagiModule.Goap
 
         private double EstimateCost(State state, ConditionInterface goal)
         {
-            return goal.EstimateDistance(state);
+            return goal.EstimateCost(state);
         }
     }
 }

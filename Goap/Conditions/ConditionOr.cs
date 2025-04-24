@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace TsunagiModule.Goap
 {
     public struct ConditionOr : ConditionInterface
@@ -21,16 +23,16 @@ namespace TsunagiModule.Goap
             return false;
         }
 
-        public double EstimateDistance(State state)
+        public double EstimateCost(State state, Dictionary<string, double> costPerDiffes = null)
         {
             // shortest distance
             double min = double.MaxValue;
             foreach (ConditionInterface condition in conditions)
             {
-                double distance = condition.EstimateDistance(state);
-                if (distance < min)
+                double cost = condition.EstimateCost(state, costPerDiffes: costPerDiffes);
+                if (cost < min)
                 {
-                    min = distance;
+                    min = cost;
                 }
             }
             return min;

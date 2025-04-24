@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace TsunagiModule.Goap
 {
@@ -23,14 +24,14 @@ namespace TsunagiModule.Goap
             return true;
         }
 
-        public double EstimateDistance(State state)
+        public double EstimateCost(State state, Dictionary<string, double> costPerDiffes = null)
         {
             // square root of sum of squares
             double sum = 0;
             foreach (ConditionInterface condition in conditions)
             {
-                double distance = condition.EstimateDistance(state);
-                sum += distance * distance;
+                double cost = condition.EstimateCost(state, costPerDiffes: costPerDiffes);
+                sum += cost * cost;
             }
             return Math.Sqrt(sum);
         }
