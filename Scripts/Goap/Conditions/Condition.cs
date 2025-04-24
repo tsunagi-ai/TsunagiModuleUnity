@@ -6,16 +6,6 @@ namespace TsunagiModule.Goap
     public struct Condition<T> : ConditionInterface
         where T : struct, IEquatable<T>
     {
-        public enum ConditionOperator
-        {
-            Larger,
-            LargerOrEqual,
-            Smaller,
-            SmallerOrEqual,
-            Equal,
-            NotEqual,
-        }
-
         public string stateIndex { get; private set; }
         public T valueComparing { get; set; }
         public ConditionOperator conditionOperator { get; set; }
