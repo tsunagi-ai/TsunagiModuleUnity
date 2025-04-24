@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TsunagiModule.Goap.Utils;
 
 namespace TsunagiModule.Goap
 {
@@ -10,21 +11,25 @@ namespace TsunagiModule.Goap
         {
             public State state;
             public AstarQueue parent;
+            public Action? action;
             public double currentCost;
             public double heuristicCost;
             public double totalCost => currentCost + heuristicCost;
+            public int depth => parent == null ? 0 : parent.depth + 1;
 
             public AstarQueue(
                 State state,
                 AstarQueue parent,
                 double currentCost,
-                double heuristicCost
+                double heuristicCost,
+                Action? action
             )
             {
                 this.state = state;
                 this.parent = parent;
                 this.currentCost = currentCost;
                 this.heuristicCost = heuristicCost;
+                this.action = action;
             }
 
             public int CompareTo(AstarQueue other)
@@ -42,12 +47,12 @@ namespace TsunagiModule.Goap
         /// </summary>
         private Dictionary<string, double> stateIndexCostWeights = new Dictionary<string, double>();
 
-        public Action[] Solve(State stateCurrent, ConditionInterface goal)
+        public Action[] Solve(State stateCurrent, ConditionInterface goal, int maxLength = 10)
         {
             // compute cost weights
             stateIndexCostWeights = ComputeCostWeights(stateCurrent);
 
-            throw new NotImplementedException("Solve method not implemented yet.");
+            return SolveAstar(stateCurrent, goal, maxLength);
         }
 
         private Dictionary<string, double> ComputeCostWeights(State stateCurrent)
@@ -72,6 +77,76 @@ namespace TsunagiModule.Goap
                 }
             }
             return largestCostPerDiff;
+        }
+
+        private Action[] SolveAstar(State stateCurrent, ConditionInterface goal, int maxDepth)
+        {
+            PriorityQueue<AstarQueue> queue = new PriorityQueue<AstarQueue>();
+            HashSet<State> closedSet = new HashSet<State>();
+
+            // starting point
+            queue.Enqueue(
+                new AstarQueue(stateCurrent, null, 0, EstimateCost(stateCurrent, goal), null)
+            );
+
+            while (queue.Count > 0)
+            {
+                // to next node
+                AstarQueue current = queue.Dequeue();
+
+                // if already closed...
+                if (closedSet.Contains(current.state))
+                {
+                    // ...skip
+                    continue;
+                }
+
+                // if arrived at goal...
+                if (goal.IsSatisfied(current.state))
+                {
+                    // ...return the Action path
+                    List<Action> actions = new List<Action>();
+                    while (current.action != null)
+                    {
+                        actions.Add(current.action ?? throw new InvalidOperationException());
+                        current = current.parent;
+                    }
+                    actions.Reverse();
+                    return actions.ToArray();
+                }
+
+                // close the current node
+                closedSet.Add(current.state);
+
+                // if not arrived to the max depth...
+                if (current.depth < maxDepth)
+                {
+                    // ...find next nodes
+                    foreach (Action action in actionPool.Values)
+                    {
+                        // if the action is available...
+                        if (action.condition.IsSatisfied(stateCurrent))
+                        {
+                            // ...go to this state
+                            State nextState = action.Simulate(current.state, overwrite: false);
+                            double costCurrent = current.currentCost + action.cost;
+                            double costEstimated = EstimateCost(nextState, goal);
+                            queue.Enqueue(
+                                new AstarQueue(
+                                    nextState,
+                                    current,
+                                    costCurrent,
+                                    costEstimated,
+                                    action
+                                )
+                            );
+                        }
+                    }
+                }
+            }
+
+            // Return empty array if no solution is found
+            return new Action[0];
         }
 
         private double EstimateCost(State state, ConditionInterface goal)
