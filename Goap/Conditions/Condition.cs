@@ -27,7 +27,7 @@ namespace TsunagiModule.Goap
             this.conditionOperator = conditionOperator;
         }
 
-        public bool IsSatisfied(State state)
+        public bool IsSatisfied(GoapState state)
         {
             GoapValueInterface valueGivenInterface = state.GetValue(stateIndex);
 
@@ -47,7 +47,7 @@ namespace TsunagiModule.Goap
             }
         }
 
-        public double EstimateCost(State state, Dictionary<string, double> costPerDiffes = null)
+        public double EstimateCost(GoapState state, Dictionary<string, double> costPerDiffes = null)
         {
             // if already satisfied...
             if (IsSatisfied(state))

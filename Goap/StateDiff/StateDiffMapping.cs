@@ -16,10 +16,10 @@ namespace TsunagiModule.Goap
             this.mapping = mapping;
         }
 
-        public State Operate(State state, bool overwrite = true)
+        public GoapState Operate(GoapState state, bool overwrite = true)
         {
             // cloning or not
-            State stateTarget;
+            GoapState stateTarget;
             if (overwrite)
             {
                 stateTarget = state;

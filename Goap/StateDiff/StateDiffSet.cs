@@ -9,10 +9,10 @@ namespace TsunagiModule.Goap
             this.stateDiffes = stateDiffes;
         }
 
-        public State Apply(State state, bool overwrite = true)
+        public GoapState Apply(GoapState state, bool overwrite = true)
         {
             // cloning or not
-            State stateTarget;
+            GoapState stateTarget;
             if (overwrite)
             {
                 stateTarget = state;

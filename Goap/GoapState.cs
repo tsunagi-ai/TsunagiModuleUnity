@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace TsunagiModule.Goap
 {
-    public struct State : IEquatable<State>
+    public struct GoapState : IEquatable<GoapState>
     {
         /// <summary>
         /// Main body of state vector
@@ -13,7 +13,7 @@ namespace TsunagiModule.Goap
 
         public string[] indices => values.Keys.ToArray();
 
-        public State(Dictionary<string, GoapValueInterface> values = null)
+        public GoapState(Dictionary<string, GoapValueInterface> values = null)
         {
             if (values == null)
             {
@@ -49,7 +49,7 @@ namespace TsunagiModule.Goap
             SetValue(stateIndex, new GoapValue<T>(value));
         }
 
-        public bool Equals(State other)
+        public bool Equals(GoapState other)
         {
             // HACK: there could be a better data structure
             // since length of dictionary tends not to be too large,
@@ -72,10 +72,10 @@ namespace TsunagiModule.Goap
             return hash;
         }
 
-        public State Clone()
+        public GoapState Clone()
         {
             // HACK: there could be a better data structure
-            return new State { values = new Dictionary<string, GoapValueInterface>(values) };
+            return new GoapState { values = new Dictionary<string, GoapValueInterface>(values) };
         }
     }
 }

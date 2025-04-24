@@ -9,7 +9,7 @@ namespace TsunagiModule.Goap
     {
         private class AstarQueue : IComparable<AstarQueue>
         {
-            public State state;
+            public GoapState state;
             public AstarQueue parent;
             public Action? action;
             public double currentCost;
@@ -18,7 +18,7 @@ namespace TsunagiModule.Goap
             public int depth => parent == null ? 0 : parent.depth + 1;
 
             public AstarQueue(
-                State state,
+                GoapState state,
                 AstarQueue parent,
                 double currentCost,
                 double heuristicCost,
@@ -47,7 +47,7 @@ namespace TsunagiModule.Goap
         /// </summary>
         private Dictionary<string, double> costPerDiffes = new Dictionary<string, double>();
 
-        public Action[] Solve(State stateCurrent, ConditionInterface goal, int maxLength = 10)
+        public Action[] Solve(GoapState stateCurrent, ConditionInterface goal, int maxLength = 10)
         {
             // compute cost weights
             costPerDiffes = ComputeCostWeights(stateCurrent);
@@ -55,7 +55,7 @@ namespace TsunagiModule.Goap
             return SolveAstar(stateCurrent, goal, maxLength);
         }
 
-        private Dictionary<string, double> ComputeCostWeights(State stateCurrent)
+        private Dictionary<string, double> ComputeCostWeights(GoapState stateCurrent)
         {
             // state index -> cost per diff
             Dictionary<string, double> largestCostPerDiff = new Dictionary<string, double>();
@@ -79,10 +79,10 @@ namespace TsunagiModule.Goap
             return largestCostPerDiff;
         }
 
-        private Action[] SolveAstar(State stateCurrent, ConditionInterface goal, int maxDepth)
+        private Action[] SolveAstar(GoapState stateCurrent, ConditionInterface goal, int maxDepth)
         {
             PriorityQueue<AstarQueue> queue = new PriorityQueue<AstarQueue>();
-            HashSet<State> closedSet = new HashSet<State>();
+            HashSet<GoapState> closedSet = new HashSet<GoapState>();
 
             // starting point
             queue.Enqueue(
@@ -128,7 +128,7 @@ namespace TsunagiModule.Goap
                         if (action.condition.IsSatisfied(stateCurrent))
                         {
                             // ...go to this state
-                            State nextState = action.Simulate(current.state, overwrite: false);
+                            GoapState nextState = action.Simulate(current.state, overwrite: false);
                             double costCurrent = current.currentCost + action.cost;
                             double costEstimated = EstimateCost(nextState, goal);
                             queue.Enqueue(
@@ -149,7 +149,7 @@ namespace TsunagiModule.Goap
             return new Action[0];
         }
 
-        private double EstimateCost(State state, ConditionInterface goal)
+        private double EstimateCost(GoapState state, ConditionInterface goal)
         {
             return goal.EstimateCost(state, costPerDiffes: costPerDiffes);
         }

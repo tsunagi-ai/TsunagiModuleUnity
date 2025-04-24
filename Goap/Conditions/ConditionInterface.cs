@@ -4,7 +4,10 @@ namespace TsunagiModule.Goap
 {
     public interface ConditionInterface
     {
-        public bool IsSatisfied(State state);
-        public double EstimateCost(State state, Dictionary<string, double> costPerDiffes = null);
+        public bool IsSatisfied(GoapState state);
+        public double EstimateCost(
+            GoapState state,
+            Dictionary<string, double> costPerDiffes = null
+        );
     }
 }

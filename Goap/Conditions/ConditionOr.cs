@@ -11,7 +11,7 @@ namespace TsunagiModule.Goap
             this.conditions = conditions;
         }
 
-        public bool IsSatisfied(State state)
+        public bool IsSatisfied(GoapState state)
         {
             foreach (ConditionInterface condition in conditions)
             {
@@ -23,7 +23,7 @@ namespace TsunagiModule.Goap
             return false;
         }
 
-        public double EstimateCost(State state, Dictionary<string, double> costPerDiffes = null)
+        public double EstimateCost(GoapState state, Dictionary<string, double> costPerDiffes = null)
         {
             // shortest distance
             double min = double.MaxValue;

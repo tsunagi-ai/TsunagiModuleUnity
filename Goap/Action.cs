@@ -20,15 +20,15 @@ namespace TsunagiModule.Goap
             this.cost = cost;
         }
 
-        public bool Available(State state)
+        public bool Available(GoapState state)
         {
             return condition.IsSatisfied(state);
         }
 
-        public State Simulate(State state, bool overwrite = true)
+        public GoapState Simulate(GoapState state, bool overwrite = true)
         {
             // cloning or not
-            State stateTarget;
+            GoapState stateTarget;
             if (overwrite)
             {
                 stateTarget = state;
