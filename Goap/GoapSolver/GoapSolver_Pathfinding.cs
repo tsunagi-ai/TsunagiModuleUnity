@@ -45,12 +45,12 @@ namespace TsunagiModule.Goap
         /// <summary>
         /// Cost estimation weights for each state index
         /// </summary>
-        private Dictionary<string, double> stateIndexCostWeights = new Dictionary<string, double>();
+        private Dictionary<string, double> costPerDiffes = new Dictionary<string, double>();
 
         public Action[] Solve(State stateCurrent, ConditionInterface goal, int maxLength = 10)
         {
             // compute cost weights
-            stateIndexCostWeights = ComputeCostWeights(stateCurrent);
+            costPerDiffes = ComputeCostWeights(stateCurrent);
 
             return SolveAstar(stateCurrent, goal, maxLength);
         }
@@ -151,7 +151,7 @@ namespace TsunagiModule.Goap
 
         private double EstimateCost(State state, ConditionInterface goal)
         {
-            return goal.EstimateCost(state);
+            return goal.EstimateCost(state, costPerDiffes: costPerDiffes);
         }
     }
 }
