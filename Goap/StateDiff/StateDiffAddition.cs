@@ -52,7 +52,7 @@ namespace TsunagiModule.Goap
                 }
 
                 // update state
-                stateTarget.SetNumericValue(stateIndex, newValue); // Updated to remove unnecessary new()
+                stateTarget.SetValue(stateIndex, newValue); // Updated to remove unnecessary new()
                 return stateTarget;
             }
             else

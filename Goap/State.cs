@@ -30,8 +30,8 @@ namespace TsunagiModule.Goap
             values[stateIndex] = value;
         }
 
-        public void SetNumericValue<T>(string stateIndex, T value)
-            where T : struct
+        public void SetValue<T>(string stateIndex, T value)
+            where T : struct, IEquatable<T>
         {
             // wrapping
             SetValue(stateIndex, new GoapValue<T>(value));
