@@ -13,6 +13,11 @@ namespace TsunagiModule.Goap
 
         public string[] indices => values.Keys.ToArray();
 
+        public State(Dictionary<string, GoapValueInterface> values)
+        {
+            this.values = values;
+        }
+
         public GoapValueInterface GetValue(string stateIndex)
         {
             if (values.TryGetValue(stateIndex, out GoapValueInterface value))
