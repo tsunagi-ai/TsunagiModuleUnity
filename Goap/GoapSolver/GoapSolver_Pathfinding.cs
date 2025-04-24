@@ -11,7 +11,7 @@ namespace TsunagiModule.Goap
         {
             public GoapState state;
             public AstarQueue parent;
-            public Action? action;
+            public GoapAction? action;
             public double currentCost;
             public double heuristicCost;
             public double totalCost => currentCost + heuristicCost;
@@ -22,7 +22,7 @@ namespace TsunagiModule.Goap
                 AstarQueue parent,
                 double currentCost,
                 double heuristicCost,
-                Action? action
+                GoapAction? action
             )
             {
                 this.state = state;
@@ -47,7 +47,11 @@ namespace TsunagiModule.Goap
         /// </summary>
         private Dictionary<string, double> costPerDiffes = new Dictionary<string, double>();
 
-        public Action[] Solve(GoapState stateCurrent, ConditionInterface goal, int maxLength = 10)
+        public GoapAction[] Solve(
+            GoapState stateCurrent,
+            ConditionInterface goal,
+            int maxLength = 10
+        )
         {
             // compute cost weights
             costPerDiffes = ComputeCostWeights(stateCurrent);
@@ -64,7 +68,7 @@ namespace TsunagiModule.Goap
                 largestCostPerDiff[stateIndex] = 0.0;
             }
 
-            foreach (Action action in actionPool.Values)
+            foreach (GoapAction action in actionPool.Values)
             {
                 foreach (StateDiffInterface stateDiff in action.stateDiffSet.stateDiffes)
                 {
@@ -79,7 +83,11 @@ namespace TsunagiModule.Goap
             return largestCostPerDiff;
         }
 
-        private Action[] SolveAstar(GoapState stateCurrent, ConditionInterface goal, int maxDepth)
+        private GoapAction[] SolveAstar(
+            GoapState stateCurrent,
+            ConditionInterface goal,
+            int maxDepth
+        )
         {
             PriorityQueue<AstarQueue> queue = new PriorityQueue<AstarQueue>();
             HashSet<GoapState> closedSet = new HashSet<GoapState>();
@@ -105,7 +113,7 @@ namespace TsunagiModule.Goap
                 if (goal.IsSatisfied(current.state))
                 {
                     // ...return the Action path
-                    List<Action> actions = new List<Action>();
+                    List<GoapAction> actions = new List<GoapAction>();
                     while (current.action != null)
                     {
                         actions.Add(current.action ?? throw new InvalidOperationException());
@@ -122,7 +130,7 @@ namespace TsunagiModule.Goap
                 if (current.depth < maxDepth)
                 {
                     // ...find next nodes
-                    foreach (Action action in actionPool.Values)
+                    foreach (GoapAction action in actionPool.Values)
                     {
                         // if the action is available...
                         if (action.condition.IsSatisfied(stateCurrent))
@@ -146,7 +154,7 @@ namespace TsunagiModule.Goap
             }
 
             // Return empty array if no solution is found
-            return new Action[0];
+            return new GoapAction[0];
         }
 
         private double EstimateCost(GoapState state, ConditionInterface goal)

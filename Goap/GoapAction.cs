@@ -1,13 +1,13 @@
 namespace TsunagiModule.Goap
 {
-    public struct Action
+    public struct GoapAction
     {
         public string name { get; private set; }
         public ConditionInterface condition { get; private set; }
         public StateDiffSet stateDiffSet { get; private set; }
         public double cost { get; private set; }
 
-        public Action(
+        public GoapAction(
             string name,
             ConditionInterface condition,
             StateDiffSet stateDiffSet,
