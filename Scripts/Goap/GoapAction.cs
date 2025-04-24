@@ -20,6 +20,19 @@ namespace TsunagiModule.Goap
             this.cost = cost;
         }
 
+        public GoapAction(
+            string name,
+            ConditionInterface condition,
+            StateDiffInterface[] stateDiffSet,
+            double cost
+        )
+        {
+            this.name = name;
+            this.condition = condition;
+            this.stateDiffSet = new StateDiffSet(stateDiffSet);
+            this.cost = cost;
+        }
+
         public bool Available(GoapState state)
         {
             return condition.IsSatisfied(state);
