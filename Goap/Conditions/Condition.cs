@@ -3,7 +3,7 @@ using System;
 namespace TsunagiModule.Goap
 {
     public struct Condition<T> : ConditionInterface
-        where T : struct
+        where T : struct, IEquatable<T>
     {
         public enum ConditionOperator
         {
