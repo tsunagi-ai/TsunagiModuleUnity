@@ -1,0 +1,173 @@
+using System.Collections.Generic;
+using NUnit.Framework;
+using TsunagiModule.Goap;
+
+public class GoapTest
+{
+    private const string ACTION_1 = "#1 increase int";
+    private const string ACTION_2 = "#2 increase float";
+    private const string ACTION_3 = "#3 increase double and switch boolean";
+
+    [Test]
+    public void GoapTestSimple()
+    {
+        Condition<int> goal = new Condition<int>("int", ConditionOperator.LargerOrEqual, 2);
+        GoapState state = GenerateState();
+        GoapSolver solver = GenerateSolverWithActionPool();
+
+        //run
+        GoapAction[] actions = solver.Solve(state, goal, 10);
+
+        // #1 -> #1
+        Assert.AreEqual(actions.Length, 2);
+        Assert.AreEqual(actions[0].name, ACTION_1);
+        Assert.AreEqual(actions[1].name, ACTION_1);
+    }
+
+    [Test]
+    public void GoapTestPathFinding()
+    {
+        Condition<float> goal = new Condition<float>(
+            "float",
+            ConditionOperator.LargerOrEqual,
+            0.5f
+        );
+
+        GoapState state = GenerateState();
+        GoapSolver solver = GenerateSolverWithActionPool();
+
+        //run
+        GoapAction[] actions = solver.Solve(state, goal, 10);
+
+        // #1 -> #1 -> #1 -> #2
+        Assert.AreEqual(actions.Length, 4);
+        Assert.AreEqual(actions[0].name, ACTION_1);
+        Assert.AreEqual(actions[1].name, ACTION_1);
+        Assert.AreEqual(actions[2].name, ACTION_1);
+        Assert.AreEqual(actions[3].name, ACTION_2);
+    }
+
+    [Test]
+    public void GoapTestMapping()
+    {
+        ConditionInterface goal = new ConditionAnd(
+            new ConditionInterface[]
+            {
+                new Condition<double>("double", ConditionOperator.LargerOrEqual, 0.1),
+                new Condition<bool>("boolean", ConditionOperator.Equal, true)
+            }
+        );
+        GoapState state = GenerateState();
+        GoapSolver solver = GenerateSolverWithActionPool();
+
+        GoapAction[] actions = solver.Solve(state, goal, 10);
+
+        // #3 -> #3
+        Assert.AreEqual(actions.Length, 2);
+        Assert.AreEqual(actions[0].name, ACTION_3);
+        Assert.AreEqual(actions[1].name, ACTION_3);
+    }
+
+    [Test]
+    public void GoapTestBetterCost()
+    {
+        const string ACTION_X = "#X int + 100 (cost 100)";
+
+        Condition<int> goal = new Condition<int>("int", ConditionOperator.Equal, 3);
+        GoapState state = GenerateState();
+        GoapSolver solver = GenerateSolverWithActionPool();
+        solver.AddAction(
+            new GoapAction(
+                ACTION_X,
+                new NoCondition(),
+                new StateDiffInterface[] { new StateDiffAddition<int>("int", 100) },
+                100.0
+            )
+        );
+
+        //run
+        GoapAction[] actions = solver.Solve(state, goal, 10);
+
+        // #1 -> #1 -> #1
+        Assert.AreEqual(actions.Length, 3);
+        Assert.AreEqual(actions[0].name, ACTION_1);
+        Assert.AreEqual(actions[1].name, ACTION_1);
+        ;
+        Assert.AreEqual(actions[2].name, ACTION_1);
+    }
+
+    [Test]
+    public void GoapTestTooDeep()
+    {
+        Condition<int> goal = new Condition<int>("int", ConditionOperator.Equal, 100);
+        GoapState state = GenerateState();
+        GoapSolver solver = GenerateSolverWithActionPool();
+
+        //run
+        GoapAction[] actions = solver.Solve(state, goal, 10);
+
+        // empty
+        Assert.AreEqual(actions.Length, 0);
+    }
+
+    [Test]
+    public void GoapTestImpossible()
+    {
+        Condition<int> goal = new Condition<int>("int", ConditionOperator.Equal, -1);
+        GoapState state = GenerateState();
+        GoapSolver solver = GenerateSolverWithActionPool();
+
+        //run
+        GoapAction[] actions = solver.Solve(state, goal, 10);
+
+        // empty
+        Assert.AreEqual(actions.Length, 0);
+    }
+
+    private GoapState GenerateState()
+    {
+        GoapState state = new GoapState();
+        state.SetValue("int", 0);
+        state.SetValue("float", 0f);
+        state.SetValue("double", 0);
+        state.SetValue("boolean", false);
+        return state;
+    }
+
+    private GoapSolver GenerateSolverWithActionPool()
+    {
+        GoapSolver solver = new GoapSolver();
+        solver.AddAction(
+            new GoapAction(
+                ACTION_1,
+                new NoCondition(),
+                new StateDiffInterface[] { new StateDiffAddition<int>("int", 1) },
+                1.0
+            )
+        );
+        solver.AddAction(
+            new GoapAction(
+                ACTION_2,
+                new Condition<int>("int", ConditionOperator.Larger, 2),
+                new StateDiffInterface[] { new StateDiffAddition<float>("float", 1f) },
+                2.0
+            )
+        );
+        solver.AddAction(
+            new GoapAction(
+                ACTION_3,
+                new NoCondition(),
+                new StateDiffInterface[]
+                {
+                    new StateDiffAddition<double>("double", 1.0),
+                    new StateDiffMapping<bool>(
+                        "boolean",
+                        new Dictionary<bool, bool>() { { false, true }, { true, false } }
+                    )
+                },
+                3.0
+            )
+        );
+        return solver;
+    }
+}
