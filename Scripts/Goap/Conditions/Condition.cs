@@ -10,7 +10,7 @@ namespace TsunagiModule.Goap
         public T valueComparing { get; set; }
         public ConditionOperator conditionOperator { get; set; }
 
-        public Condition(string stateIndex, T valueComparing, ConditionOperator conditionOperator)
+        public Condition(string stateIndex, ConditionOperator conditionOperator, T valueComparing)
         {
             this.stateIndex = stateIndex;
             this.valueComparing = valueComparing;
