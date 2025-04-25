@@ -3,13 +3,27 @@ using System.Collections.Generic;
 
 namespace TsunagiModule.Goap.Utils
 {
+    /// <summary>
+    /// Represents a generic priority queue that organizes elements based on their priority.
+    /// </summary>
+    /// <typeparam name="T">The type of elements in the priority queue. Must implement <see cref="IComparable{T}"/>.</typeparam>
     public class PriorityQueue<T>
         where T : IComparable<T>
     {
+        /// <summary>
+        /// The list of elements in the priority queue.
+        /// </summary>
         private List<T> elements = new List<T>();
 
+        /// <summary>
+        /// Gets the number of elements in the priority queue.
+        /// </summary>
         public int Count => elements.Count;
 
+        /// <summary>
+        /// Adds an element to the priority queue.
+        /// </summary>
+        /// <param name="item">The element to add.</param>
         public void Enqueue(T item)
         {
             elements.Add(item);
@@ -28,6 +42,11 @@ namespace TsunagiModule.Goap.Utils
             }
         }
 
+        /// <summary>
+        /// Removes and returns the element with the highest priority from the priority queue.
+        /// </summary>
+        /// <returns>The element with the highest priority.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when the priority queue is empty.</exception>
         public T Dequeue()
         {
             if (elements.Count == 0)

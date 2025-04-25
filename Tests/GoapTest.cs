@@ -2,12 +2,29 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using TsunagiModule.Goap;
 
+/// <summary>
+/// Contains unit tests for the GOAP (Goal-Oriented Action Planning) system.
+/// </summary>
 public class GoapTest
 {
+    /// <summary>
+    /// Constant representing the name of the first action.
+    /// </summary>
     private const string ACTION_1 = "#1 increase int";
+
+    /// <summary>
+    /// Constant representing the name of the second action.
+    /// </summary>
     private const string ACTION_2 = "#2 increase float";
+
+    /// <summary>
+    /// Constant representing the name of the third action.
+    /// </summary>
     private const string ACTION_3 = "#3 increase double and switch boolean";
 
+    /// <summary>
+    /// Tests a simple GOAP scenario.
+    /// </summary>
     [Test]
     public void GoapTestSimple()
     {
@@ -25,6 +42,9 @@ public class GoapTest
         Assert.AreEqual(ACTION_1, result.actions[1].name);
     }
 
+    /// <summary>
+    /// Tests the pathfinding capabilities of the GOAP solver.
+    /// </summary>
     [Test]
     public void GoapTestPathFinding()
     {
@@ -49,6 +69,9 @@ public class GoapTest
         Assert.AreEqual(ACTION_2, result.actions[3].name);
     }
 
+    /// <summary>
+    /// Tests the mapping functionality of the GOAP solver.
+    /// </summary>
     [Test]
     public void GoapTestMapping()
     {
@@ -71,6 +94,9 @@ public class GoapTest
         Assert.AreEqual(ACTION_3, result.actions[1].name);
     }
 
+    /// <summary>
+    /// Tests the solver's ability to choose actions with better costs.
+    /// </summary>
     [Test]
     public void GoapTestBetterCost()
     {
@@ -99,6 +125,9 @@ public class GoapTest
         Assert.AreEqual(ACTION_1, result.actions[2].name);
     }
 
+    /// <summary>
+    /// Tests the solver's behavior when the goal depth is too deep.
+    /// </summary>
     [Test]
     public void GoapTestTooDeep()
     {
@@ -113,6 +142,9 @@ public class GoapTest
         Assert.AreEqual(false, result.success);
     }
 
+    /// <summary>
+    /// Tests the solver's behavior when the goal is impossible to achieve.
+    /// </summary>
     [Test]
     public void GoapTestImpossible()
     {
@@ -127,6 +159,10 @@ public class GoapTest
         Assert.AreEqual(false, result.success);
     }
 
+    /// <summary>
+    /// Generates a sample GOAP state for testing.
+    /// </summary>
+    /// <returns>A sample GOAP state.</returns>
     private GoapState GenerateState()
     {
         GoapState state = new GoapState();
@@ -137,6 +173,10 @@ public class GoapTest
         return state;
     }
 
+    /// <summary>
+    /// Generates a GOAP solver with a predefined action pool for testing.
+    /// </summary>
+    /// <returns>A GOAP solver with predefined actions.</returns>
     private GoapSolver GenerateSolverWithActionPool()
     {
         GoapSolver solver = new GoapSolver();

@@ -3,13 +3,44 @@ using System.Collections.Generic;
 
 namespace TsunagiModule.Goap
 {
+    /// <summary>
+    /// Basic conditioning in the GOAP system.
+    /// Compares a state value with a target value using a specified operator.
+    /// </summary>
+    /// <remarks>
+    /// Available conditioning method is listed in the <see cref="ConditionOperator"/> enum.
+    /// </remarks>
+    /// <example>
+    /// This means > 5
+    /// <code>
+    /// new Condition("correspondingindex", ConditionOperator.Greater, 5)
+    /// </code>
+    /// </example>
+    /// <typeparam name="T">This must be the same type as the value in the State.</typeparam>
     public struct Condition<T> : ConditionInterface
         where T : struct, IEquatable<T>
     {
+        /// <summary>
+        /// The index of the state value to compare.
+        /// </summary>
         public string stateIndex { get; private set; }
+
+        /// <summary>
+        /// The target value to compare against.
+        /// </summary>
         public T valueComparing { get; set; }
+
+        /// <summary>
+        /// The operator used for the comparison.
+        /// </summary>
         public ConditionOperator conditionOperator { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Condition{T}"/> struct.
+        /// </summary>
+        /// <param name="stateIndex">The index of the state value to compare.</param>
+        /// <param name="conditionOperator">The operator used for the comparison.</param>
+        /// <param name="valueComparing">The target value to compare against.</param>
         public Condition(string stateIndex, ConditionOperator conditionOperator, T valueComparing)
         {
             this.stateIndex = stateIndex;
@@ -17,6 +48,12 @@ namespace TsunagiModule.Goap
             this.conditionOperator = conditionOperator;
         }
 
+        /// <summary>
+        /// Determines whether the condition is satisfied given the current state.
+        /// </summary>
+        /// <param name="state">The current GOAP state.</param>
+        /// <returns>True if the condition is satisfied; otherwise, false.</returns>
+        /// <exception cref="InvalidCastException">Thrown when the state value type does not match the expected type.</exception>
         public bool IsSatisfied(GoapState state)
         {
             GoapValueInterface valueGivenInterface = state.GetValue(stateIndex);
@@ -37,6 +74,13 @@ namespace TsunagiModule.Goap
             }
         }
 
+        /// <summary>
+        /// Estimates the cost of satisfying the condition given the current state.
+        /// </summary>
+        /// <param name="state">The current GOAP state.</param>
+        /// <param name="costPerDiffes">Optional dictionary of costs per state difference.</param>
+        /// <returns>The estimated cost of satisfying the condition.</returns>
+        /// <exception cref="InvalidCastException">Thrown when the state value type does not match the expected type.</exception>
         public double EstimateCost(GoapState state, Dictionary<string, double> costPerDiffes = null)
         {
             // if already satisfied...
@@ -100,6 +144,14 @@ namespace TsunagiModule.Goap
             return distance * costPerDiff;
         }
 
+        /// <summary>
+        /// Compares the given value with the target value using the specified operator.
+        /// </summary>
+        /// <param name="valueGiven">The value to compare.</param>
+        /// <param name="valueComparing">The target value to compare against.</param>
+        /// <returns>True if the comparison is successful; otherwise, false.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when the operator is not supported for the value type.</exception>
+        /// <exception cref="NotImplementedException">Thrown when the operator is not implemented.</exception>
         private bool Compare(T valueGiven, T valueComparing)
         {
             // delegate to corresponding comparison method
@@ -145,6 +197,13 @@ namespace TsunagiModule.Goap
             }
         }
 
+        /// <summary>
+        /// Compares two values using equatable operators.
+        /// </summary>
+        /// <param name="valueGivenEquatable">The value to compare.</param>
+        /// <param name="valueComparing">The target value to compare against.</param>
+        /// <returns>True if the comparison is successful; otherwise, false.</returns>
+        /// <exception cref="NotImplementedException">Thrown when the operator is not implemented.</exception>
         private bool CompareEquatable(IEquatable<T> valueGivenEquatable, T valueComparing)
         {
             switch (conditionOperator)
@@ -160,6 +219,13 @@ namespace TsunagiModule.Goap
             }
         }
 
+        /// <summary>
+        /// Compares two values using comparable operators.
+        /// </summary>
+        /// <param name="valueGivenComparable">The value to compare.</param>
+        /// <param name="valueComparing">The target value to compare against.</param>
+        /// <returns>True if the comparison is successful; otherwise, false.</returns>
+        /// <exception cref="NotImplementedException">Thrown when the operator is not implemented.</exception>
         private bool CompareComparable(IComparable<T> valueGivenComparable, T valueComparing)
         {
             // https://learn.microsoft.com/en-us/dotnet/api/system.icomparable?view=net-9.0
