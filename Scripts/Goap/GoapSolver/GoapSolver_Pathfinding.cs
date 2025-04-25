@@ -4,7 +4,6 @@ using TsunagiModule.Goap.Utils;
 
 namespace TsunagiModule.Goap
 {
-    //https://medium.com/@hanxuyang0826/mastering-pathfinding-with-a-star-a-practical-guide-and-c-implementation-f76f1643d8c3
     /// <summary>
     /// Implements the A* pathfinding algorithm for the GOAP solver.
     /// </summary>
@@ -16,68 +15,36 @@ namespace TsunagiModule.Goap
         private class AstarQueue : IComparable<AstarQueue>
         {
             /// <summary>
-            /// The current state of the node.
+            /// simulated State
             /// </summary>
             public GoapState state;
 
             /// <summary>
-            /// The parent node in the search path.
+            /// previous queue
             /// </summary>
             public AstarQueue parent;
-
-            /// <summary>
-            /// The action that led to this state.
-            /// </summary>
             public GoapAction? action;
-
-            /// <summary>
-            /// The cost incurred to reach this state.
-            /// </summary>
             public double currentCost;
-
-            /// <summary>
-            /// The estimated cost to reach the goal from this state.
-            /// </summary>
-            public double heuristicCost;
-
-            /// <summary>
-            /// Gets the total cost (current cost + heuristic cost) for this node.
-            /// </summary>
-            public double totalCost => currentCost + heuristicCost;
-
-            /// <summary>
-            /// Gets the depth of this node in the search tree.
-            /// </summary>
+            public double estimatedCost;
+            public double totalCost => currentCost + estimatedCost;
             public int depth => parent == null ? 0 : parent.depth + 1;
 
-            /// <summary>
-            /// Initializes a new instance of the <see cref="AstarQueue"/> class.
-            /// </summary>
-            /// <param name="state">The current state of the node.</param>
-            /// <param name="parent">The parent node in the search path.</param>
-            /// <param name="currentCost">The cost incurred to reach this state.</param>
-            /// <param name="heuristicCost">The estimated cost to reach the goal from this state.</param>
-            /// <param name="action">The action that led to this state.</param>
             public AstarQueue(
                 GoapState state,
                 AstarQueue parent,
                 double currentCost,
-                double heuristicCost,
+                double estimatedCost,
                 GoapAction? action
             )
             {
                 this.state = state;
                 this.parent = parent;
                 this.currentCost = currentCost;
-                this.heuristicCost = heuristicCost;
+                this.estimatedCost = estimatedCost;
                 this.action = action;
             }
 
-            /// <summary>
-            /// Compares this node with another node based on their total costs.
-            /// </summary>
-            /// <param name="other">The other node to compare with.</param>
-            /// <returns>A negative value if this node has a lower total cost, a positive value if it has a higher total cost, or zero if the costs are equal.</returns>
+            // for sorting
             public int CompareTo(AstarQueue other)
             {
                 if (totalCost < other.totalCost)
@@ -90,6 +57,7 @@ namespace TsunagiModule.Goap
 
         /// <summary>
         /// Cost estimation weights for each state index.
+        /// This is simply multipied with the diff from the goal of State
         /// </summary>
         private Dictionary<string, double> costPerDiffes = new Dictionary<string, double>();
 
@@ -98,7 +66,8 @@ namespace TsunagiModule.Goap
         /// </summary>
         /// <param name="stateCurrent">The current state.</param>
         /// <param name="goal">The goal condition to satisfy.</param>
-        /// <param name="maxLength">The maximum depth of the search tree.</param>
+        /// <param name="maxLength">The maximum depth of the search tree.
+        /// If the search exceeds this depth, it will terminate early.</param>
         /// <returns>The result of the GOAP problem-solving process.</returns>
         public GoapResult Solve(GoapState stateCurrent, ConditionInterface goal, int maxLength = 10)
         {
@@ -111,6 +80,9 @@ namespace TsunagiModule.Goap
         /// <summary>
         /// Computes the cost weights for each state index based on the current state.
         /// </summary>
+        /// <remarks>
+        /// This assume that the weight should be the largest costPerDiff about each State values
+        /// </remarks>
         /// <param name="stateCurrent">The current state.</param>
         /// <returns>A dictionary mapping state indices to their cost weights.</returns>
         private Dictionary<string, double> ComputeCostWeights(GoapState stateCurrent)
@@ -144,6 +116,9 @@ namespace TsunagiModule.Goap
         /// <param name="goal">The goal condition to satisfy.</param>
         /// <param name="maxDepth">The maximum depth of the search tree.</param>
         /// <returns>The result of the A* search process.</returns>
+        /// <seealso href="https://medium.com/@hanxuyang0826/mastering-pathfinding-with-a-star-a-practical-guide-and-c-implementation-f76f1643d8c3">
+        /// Implementation of A* Pathfinding
+        /// </seeslso>
         private GoapResult SolveAstar(GoapState stateCurrent, ConditionInterface goal, int maxDepth)
         {
             PriorityQueue<AstarQueue> queue = new PriorityQueue<AstarQueue>();

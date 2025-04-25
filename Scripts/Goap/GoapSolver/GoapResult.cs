@@ -1,8 +1,11 @@
 namespace TsunagiModule.Goap
 {
     /// <summary>
-    /// Represents the result of solving a GOAP (Goal-Oriented Action Planning) problem.
+    /// The result returned by the <see cref="GoapSolver"/>
     /// </summary>
+    /// <remarks>
+    /// You may want to check <see cref="success"/> to check if the goal was achieved or not, before accessing <see cref="actions"/>
+    /// </remarks>
     public struct GoapResult
     {
         /// <summary>

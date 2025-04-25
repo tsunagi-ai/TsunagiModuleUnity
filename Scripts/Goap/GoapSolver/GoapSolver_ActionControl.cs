@@ -2,9 +2,6 @@ using System.Collections.Generic;
 
 namespace TsunagiModule.Goap
 {
-    /// <summary>
-    /// Provides methods to manage the pool of actions in the GOAP solver.
-    /// </summary>
     public partial class GoapSolver
     {
         /// <summary>
