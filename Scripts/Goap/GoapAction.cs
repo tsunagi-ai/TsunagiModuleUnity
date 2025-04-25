@@ -1,8 +1,12 @@
 namespace TsunagiModule.Goap
 {
     /// <summary>
-    /// Represents an action in the GOAP (Goal-Oriented Action Planning) system.
+    /// Represents an action in the GOAP system.
     /// </summary>
+    /// <remarks>
+    /// This contains the condition and effect of the action.
+    /// The <see cref="GoapSolver"/> will conduct a pathfinding according to these conditions and effects.
+    /// </remarks>
     public struct GoapAction
     {
         /// <summary>

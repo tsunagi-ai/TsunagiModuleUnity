@@ -7,6 +7,9 @@ namespace TsunagiModule.Goap
     /// <summary>
     /// Represents the state in the GOAP (Goal-Oriented Action Planning) system.
     /// </summary>
+    /// <remarks>
+    /// You need to write what is happening in the game world into this <see cref="GoapState"/>.
+    /// </remarks>
     public struct GoapState : IEquatable<GoapState>
     {
         /// <summary>
