@@ -41,6 +41,9 @@ namespace TsunagiModule.Goap
         /// <summary>
         /// Estimates the cost of satisfying this OR condition given the current state.
         /// </summary>
+        /// <remarks>
+        /// This method uses the minimum cost of the sub-conditions to estimate the cost of satisfying the OR condition.
+        /// </remarks>
         /// <param name="state">The current state.</param>
         /// <param name="costPerDiffes">Optional dictionary of costs per state difference.</param>
         /// <returns>The estimated cost of satisfying the condition.</returns>

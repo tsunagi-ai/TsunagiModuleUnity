@@ -42,6 +42,9 @@ namespace TsunagiModule.Goap
         /// <summary>
         /// Estimates the cost of satisfying this AND condition given the current state.
         /// </summary>
+        /// <remarks>
+        /// This method uses the square root of the sum of squares to estimate the cost of the sub-conditions
+        /// </remarks>
         /// <param name="state">The current GOAP state.</param>
         /// <param name="costPerDiffes">Optional dictionary of costs per state difference.</param>
         /// <returns>The estimated cost of satisfying the condition.</returns>

@@ -3,8 +3,12 @@ using System.Collections.Generic;
 namespace TsunagiModule.Goap
 {
     /// <summary>
-    /// Defines an interface for conditions in the GOAP system.
+    /// interface for conditions in the GOAP system.
     /// </summary>
+    /// <remarks>
+    /// If you want basical conditioning, see <see cref="Condition"/>.
+    /// If you DONT want to use the default condition, see <see cref="NoCondition"/>.
+    /// </remarks>
     public interface ConditionInterface
     {
         /// <summary>

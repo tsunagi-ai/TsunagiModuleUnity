@@ -11,7 +11,7 @@ namespace TsunagiModule.Goap
     /// Available conditioning method is listed in the <see cref="ConditionOperator"/> enum.
     /// </remarks>
     /// <example>
-    /// This means > 5
+    /// This means (> 5)
     /// <code>
     /// new Condition("correspondingindex", ConditionOperator.Greater, 5)
     /// </code>
@@ -26,12 +26,12 @@ namespace TsunagiModule.Goap
         public string stateIndex { get; private set; }
 
         /// <summary>
-        /// The target value to compare against.
+        /// The value to compare against.
         /// </summary>
         public T valueComparing { get; set; }
 
         /// <summary>
-        /// The operator used for the comparison.
+        /// Conditioning method
         /// </summary>
         public ConditionOperator conditionOperator { get; set; }
 
@@ -39,8 +39,8 @@ namespace TsunagiModule.Goap
         /// Initializes a new instance of the <see cref="Condition{T}"/> struct.
         /// </summary>
         /// <param name="stateIndex">The index of the state value to compare.</param>
-        /// <param name="conditionOperator">The operator used for the comparison.</param>
-        /// <param name="valueComparing">The target value to compare against.</param>
+        /// <param name="conditionOperator">Conditioning method</param>
+        /// <param name="valueComparing">Value to compare against.</param>
         public Condition(string stateIndex, ConditionOperator conditionOperator, T valueComparing)
         {
             this.stateIndex = stateIndex;
@@ -51,7 +51,7 @@ namespace TsunagiModule.Goap
         /// <summary>
         /// Determines whether the condition is satisfied given the current state.
         /// </summary>
-        /// <param name="state">The current GOAP state.</param>
+        /// <param name="state">The current GOAP state. This class will read the state value associated with the stateIndex.</param>
         /// <returns>True if the condition is satisfied; otherwise, false.</returns>
         /// <exception cref="InvalidCastException">Thrown when the state value type does not match the expected type.</exception>
         public bool IsSatisfied(GoapState state)
@@ -77,8 +77,13 @@ namespace TsunagiModule.Goap
         /// <summary>
         /// Estimates the cost of satisfying the condition given the current state.
         /// </summary>
-        /// <param name="state">The current GOAP state.</param>
-        /// <param name="costPerDiffes">Optional dictionary of costs per state difference.</param>
+        /// <remarks>
+        /// If boolean, the diff is set as 1.0.
+        /// If numerical (<see cref="IConvertible"/>), the diff is the absolute difference of them.
+        /// If others, the diff assumed to be 1.0 if not equal.
+        /// </remarks>
+        /// <param name="state">The current GOAP state. This class will read the state value associated with the stateIndex.</param>
+        /// <param name="costPerDiffes">Optional dictionary of costs per state difference. If null, this will assume as 1.0</param>
         /// <returns>The estimated cost of satisfying the condition.</returns>
         /// <exception cref="InvalidCastException">Thrown when the state value type does not match the expected type.</exception>
         public double EstimateCost(GoapState state, Dictionary<string, double> costPerDiffes = null)
@@ -146,6 +151,9 @@ namespace TsunagiModule.Goap
         /// <summary>
         /// Compares the given value with the target value using the specified operator.
         /// </summary>
+        /// <remarks>
+        /// This function routes to corresponding comparison method.
+        /// </remarks>
         /// <param name="valueGiven">The value to compare.</param>
         /// <param name="valueComparing">The target value to compare against.</param>
         /// <returns>True if the comparison is successful; otherwise, false.</returns>
@@ -188,8 +196,10 @@ namespace TsunagiModule.Goap
                             $"Condition operator '{conditionOperator}' is not supported for type '{typeof(T)}'."
                         );
                     }
+
+                // unknown
                 default:
-                    // ...panic
+                    // panic
                     throw new NotImplementedException(
                         $"Condition operator '{conditionOperator}' not implemented yet."
                     );

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 namespace TsunagiModule.Goap
 {
     /// <summary>
-    /// Represents a condition that is always satisfied and has no cost.
+    /// Represents a condition that is always satisfied
     /// </summary>
     public struct NoCondition : ConditionInterface
     {
@@ -20,6 +20,9 @@ namespace TsunagiModule.Goap
         /// <summary>
         /// Estimates the cost of satisfying the condition.
         /// </summary>
+        /// <remarks>
+        /// this is always 0 because the condition is always satisfied.
+        /// </remarks>
         /// <param name="state">The current GOAP state.</param>
         /// <param name="costPerDiffes">Optional dictionary of costs per state difference.</param>
         /// <returns>Always returns 0.</returns>
