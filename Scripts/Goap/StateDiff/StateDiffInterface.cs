@@ -21,6 +21,9 @@ namespace TsunagiModule.Goap
         /// <summary>
         /// Gets the difference value associated with this operation.
         /// </summary>
+        /// <remarks>
+        /// This is used to estimate cost weight by <see cref="GoapSolver"/>
+        /// </remarks>
         public double diff { get; }
     }
 }
