@@ -16,7 +16,7 @@ namespace TsunagiModule.Goap
         /// <param name="state">The GOAP state to apply the difference to.</param>
         /// <param name="overwrite">Whether to overwrite the current state or clone it.</param>
         /// <returns>The resulting state after applying the difference.</returns>
-        public GoapState Operate(GoapState state, bool overwrite = true);
+        public GoapState Operate(GoapState state, bool overwrite);
 
         /// <summary>
         /// Gets the difference value associated with this operation.

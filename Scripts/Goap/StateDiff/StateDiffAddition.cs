@@ -48,7 +48,7 @@ namespace TsunagiModule.Goap
         /// <param name="overwrite">Whether to overwrite the current state or clone it.</param>
         /// <returns>The resulting state after applying the addition.</returns>
         /// <exception cref="ArgumentException">Thrown when there is a type mismatch between the addition operation and the state value type.</exception>
-        public GoapState Operate(GoapState state, bool overwrite = true)
+        public GoapState Operate(GoapState state, bool overwrite)
         {
             // cloning or not
             GoapState stateTarget;

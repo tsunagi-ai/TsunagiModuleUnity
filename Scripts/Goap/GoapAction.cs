@@ -85,7 +85,7 @@ namespace TsunagiModule.Goap
         /// <param name="state">The current state.</param>
         /// <param name="overwrite">Whether to overwrite the current state or clone it.</param>
         /// <returns>The resulting state after applying the action.</returns>
-        public GoapState Simulate(GoapState state, bool overwrite = true)
+        public GoapState Simulate(GoapState state, bool overwrite)
         {
             GoapState stateTarget;
             if (overwrite)
@@ -97,7 +97,7 @@ namespace TsunagiModule.Goap
                 stateTarget = state.Clone();
             }
 
-            stateTarget = stateDiffSet.Apply(stateTarget, overwrite: true);
+            stateTarget = stateDiffSet.Apply(stateTarget, overwrite);
 
             return stateTarget;
         }

@@ -25,7 +25,7 @@ namespace TsunagiModule.Goap
         /// <param name="state">The GOAP state to apply the differences to.</param>
         /// <param name="overwrite">Whether to overwrite the current state or clone it.</param>
         /// <returns>The resulting state after applying the differences.</returns>
-        public GoapState Apply(GoapState state, bool overwrite = true)
+        public GoapState Apply(GoapState state, bool overwrite)
         {
             // cloning or not
             GoapState stateTarget;
@@ -41,7 +41,7 @@ namespace TsunagiModule.Goap
             // apply all operations
             foreach (StateDiffInterface stateDiff in stateDiffes)
             {
-                stateDiff.Operate(stateTarget, overwrite: true);
+                stateDiff.Operate(stateTarget, true);
             }
 
             return stateTarget;

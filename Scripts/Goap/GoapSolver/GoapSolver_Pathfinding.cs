@@ -178,7 +178,7 @@ namespace TsunagiModule.Goap
                         if (action.IsAvailable(current.state))
                         {
                             // ...go to this state
-                            GoapState nextState = action.Simulate(current.state, overwrite: false);
+                            GoapState nextState = action.Simulate(current.state, false);
                             double costCurrent = current.currentCost + action.cost;
                             double costEstimated = EstimateCost(nextState, goal);
                             queue.Enqueue(
