@@ -75,7 +75,7 @@ namespace TsunagiModule.Goap
         /// <param name="maxLength">The maximum depth of the search tree.
         /// If the search exceeds this depth, it will terminate early.</param>
         /// <returns>The result of the GOAP problem-solving process.</returns>
-        public GoapResult Solve(GoapState stateCurrent, ConditionInterface goal, int maxLength = 10)
+        public GoapResult Solve(GoapState stateCurrent, ConditionInterface goal, int maxLength)
         {
             // compute cost weights
             costPerDiffes = ComputeCostWeights(stateCurrent);
