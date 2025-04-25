@@ -39,5 +39,13 @@ namespace TsunagiModule.Goap
         {
             actionPool[name] = action;
         }
+
+        /// <summary>
+        /// Clear all actions in the action pool.
+        /// </summary>
+        public void ClearActionPool()
+        {
+            actionPool.Clear();
+        }
     }
 }
