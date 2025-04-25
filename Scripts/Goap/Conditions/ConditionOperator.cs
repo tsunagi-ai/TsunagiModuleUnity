@@ -18,12 +18,12 @@ namespace TsunagiModule.Goap
         /// <summary>
         /// Represents a comparison where the left-hand side is smaller than the right-hand side.
         /// </summary>
-        Smaller,
+        Less,
 
         /// <summary>
         /// Represents a comparison where the left-hand side is smaller than or equal to the right-hand side.
         /// </summary>
-        SmallerOrEqual,
+        LessOrEqual,
 
         /// <summary>
         /// Represents a comparison where the left-hand side is equal to the right-hand side.

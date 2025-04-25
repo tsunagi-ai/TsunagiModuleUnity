@@ -174,8 +174,8 @@ namespace TsunagiModule.Goap
                     }
                 case ConditionOperator.Greater:
                 case ConditionOperator.GreaterOrEqual:
-                case ConditionOperator.Smaller:
-                case ConditionOperator.SmallerOrEqual:
+                case ConditionOperator.Less:
+                case ConditionOperator.LessOrEqual:
                     // if operation available...
                     if (valueGiven is IComparable<T> valueGivenComparable)
                     {
@@ -239,9 +239,9 @@ namespace TsunagiModule.Goap
                     return valueGivenComparable.CompareTo(valueComparing) > 0;
                 case ConditionOperator.GreaterOrEqual:
                     return valueGivenComparable.CompareTo(valueComparing) >= 0;
-                case ConditionOperator.Smaller:
+                case ConditionOperator.Less:
                     return valueGivenComparable.CompareTo(valueComparing) < 0;
-                case ConditionOperator.SmallerOrEqual:
+                case ConditionOperator.LessOrEqual:
                     return valueGivenComparable.CompareTo(valueComparing) <= 0;
                 default:
                     throw new NotImplementedException(
