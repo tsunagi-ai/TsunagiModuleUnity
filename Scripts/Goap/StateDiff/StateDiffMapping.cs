@@ -27,7 +27,7 @@ namespace TsunagiModule.Goap
         /// <summary>
         /// Gets the difference value for this mapping operation.
         /// </summary>
-        public float diff => 1f;
+        public double diff => 1.0;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StateDiffMapping{T}"/> struct.

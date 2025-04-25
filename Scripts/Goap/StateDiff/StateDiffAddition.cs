@@ -28,7 +28,7 @@ namespace TsunagiModule.Goap
         /// <summary>
         /// Gets the difference value associated with this addition operation.
         /// </summary>
-        public float diff => Convert.ToSingle(additionValue);
+        public double diff => Convert.ToDouble(additionValue);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StateDiffAddition{T}"/> struct.

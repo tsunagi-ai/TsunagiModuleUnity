@@ -21,6 +21,6 @@ namespace TsunagiModule.Goap
         /// <summary>
         /// Gets the difference value associated with this operation.
         /// </summary>
-        public float diff { get; }
+        public double diff { get; }
     }
 }
