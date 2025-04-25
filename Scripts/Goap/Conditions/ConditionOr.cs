@@ -49,9 +49,7 @@ namespace TsunagiModule.Goap
         /// <returns>The estimated cost of satisfying the condition.</returns>
         public double EstimateCost(GoapState state, Dictionary<string, double> costPerDiffes = null)
         {
-            // shortest distance
-            double min = // shortest distance
-            double.MaxValue;
+            double min = double.MaxValue;
             foreach (ConditionInterface condition in conditions)
             {
                 double cost = condition.EstimateCost(state, costPerDiffes: costPerDiffes);
