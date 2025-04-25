@@ -150,25 +150,8 @@ namespace TsunagiModule.Goap
                 // if arrived at goal...
                 if (goal.IsSatisfied(current.state))
                 {
-                    // ...return the Action path
-
-                    // action list
-                    List<GoapAction> actions = new List<GoapAction>();
-                    while (current.action != null)
-                    {
-                        actions.Add(current.action ?? throw new InvalidOperationException());
-                        current = current.parent;
-                    }
-                    actions.Reverse();
-
-                    // create GoapResult
-                    GoapResult result = new GoapResult(
-                        actions.ToArray(),
-                        current.currentCost,
-                        true
-                    );
-
-                    return result;
+                    // ...early return result
+                    return CreateSuccessResult(current);
                 }
 
                 // close the current node
@@ -201,6 +184,26 @@ namespace TsunagiModule.Goap
                 }
             }
 
+            return CreateFailureResult();
+        }
+
+        private GoapResult CreateSuccessResult(AstarQueue latestQueue)
+        {
+            // action list
+            List<GoapAction> actions = new List<GoapAction>();
+            while (latestQueue.action != null)
+            {
+                actions.Add(latestQueue.action ?? throw new InvalidOperationException());
+                latestQueue = latestQueue.parent;
+            }
+            actions.Reverse();
+
+            // create GoapResult
+            return new GoapResult(actions.ToArray(), latestQueue.currentCost, true);
+        }
+
+        private GoapResult CreateFailureResult()
+        {
             return new GoapResult(null, -1, false);
         }
 
