@@ -160,31 +160,35 @@ namespace TsunagiModule.Goap
                 // if not arrived to the max depth...
                 if (current.depth < maxDepth)
                 {
-                    // ...find next nodes
-                    foreach (GoapAction action in actionPool.Values)
-                    {
-                        // if the action is available...
-                        if (action.IsAvailable(current.state))
-                        {
-                            // ...go to this state
-                            GoapState nextState = action.Simulate(current.state, false);
-                            double costCurrent = current.currentCost + action.cost;
-                            double costEstimated = EstimateCost(nextState, goal);
-                            queue.Enqueue(
-                                new AstarQueue(
-                                    nextState,
-                                    current,
-                                    costCurrent,
-                                    costEstimated,
-                                    action
-                                )
-                            );
-                        }
-                    }
+                    // ...enqueue next nodes
+                    EnqueueNextActions(queue, current, goal);
                 }
             }
 
             return CreateFailureResult();
+        }
+
+        private void EnqueueNextActions(
+            PriorityQueue<AstarQueue> queue,
+            AstarQueue current,
+            ConditionInterface goal
+        )
+        {
+            // ...find next nodes
+            foreach (GoapAction action in actionPool.Values)
+            {
+                // if the action is available...
+                if (action.IsAvailable(current.state))
+                {
+                    // ...go to this state
+                    GoapState nextState = action.Simulate(current.state, false);
+                    double costCurrent = current.currentCost + action.cost;
+                    double costEstimated = EstimateCost(nextState, goal);
+                    queue.Enqueue(
+                        new AstarQueue(nextState, current, costCurrent, costEstimated, action)
+                    );
+                }
+            }
         }
 
         private GoapResult CreateSuccessResult(AstarQueue latestQueue)
