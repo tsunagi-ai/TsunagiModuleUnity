@@ -42,7 +42,7 @@ namespace TsunagiModule.Goap
                 if (mapping.TryGetValue(currentValue, out T value))
                 {
                     // ...update the state with the mapped value
-                    stateTarget.SetValue(stateIndex, value);
+                    stateTarget.SetRawValue(stateIndex, value);
                 }
                 // if there isn't...
                 else

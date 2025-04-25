@@ -42,7 +42,7 @@ namespace TsunagiModule.Goap
             values[stateIndex] = value;
         }
 
-        public void SetValue<T>(string stateIndex, T value)
+        public void SetRawValue<T>(string stateIndex, T value)
             where T : struct, IEquatable<T>
         {
             // wrapping
