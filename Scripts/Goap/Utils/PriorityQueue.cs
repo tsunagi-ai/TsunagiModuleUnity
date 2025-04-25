@@ -1,3 +1,4 @@
+// This entire file is written by GitHub Copilot
 using System;
 using System.Collections.Generic;
 
@@ -7,6 +8,7 @@ namespace TsunagiModule.Goap.Utils
     /// Represents a generic priority queue that organizes elements based on their priority.
     /// </summary>
     /// <typeparam name="T">The type of elements in the priority queue. Must implement <see cref="IComparable{T}"/>.</typeparam>
+    /// <seealso cref="https://www.geeksforgeeks.org/priority-queue-set-1-introduction/"/>
     public class PriorityQueue<T>
         where T : IComparable<T>
     {

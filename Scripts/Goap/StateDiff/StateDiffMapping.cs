@@ -6,6 +6,10 @@ namespace TsunagiModule.Goap
     /// <summary>
     /// Represents a mapping operation for state differences in the GOAP system.
     /// </summary>
+    /// <remarks>
+    /// the State value is replaced according to the given mapping dictionary.
+    /// The unwritten state value in the dictionary will not be changed.
+    /// </remarks>
     /// <typeparam name="T">The type of the state values. Must be a struct and implement <see cref="IEquatable{T}"/>.</typeparam>
     public struct StateDiffMapping<T> : StateDiffInterface
         where T : struct, IEquatable<T>

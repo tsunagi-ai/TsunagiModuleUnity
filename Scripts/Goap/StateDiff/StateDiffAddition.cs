@@ -5,6 +5,12 @@ namespace TsunagiModule.Goap
     /// <summary>
     /// Represents an addition operation for state differences in the GOAP system.
     /// </summary>
+    /// <example>
+    /// This is example of adding 3 at index0
+    /// <code>
+    /// new StateDiffAddition("index0", 1)
+    /// </code>
+    /// </example>
     /// <typeparam name="T">The type of the state values. Must be a struct and implement <see cref="IConvertible"/>, <see cref="IComparable"/>, and <see cref="IEquatable{T}"/>.</typeparam>
     public struct StateDiffAddition<T> : StateDiffInterface
         where T : struct, IConvertible, IComparable, IComparable<T>, IEquatable<T>
