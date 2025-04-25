@@ -74,7 +74,7 @@ namespace TsunagiModule.Goap
         /// </summary>
         /// <param name="state">The current state.</param>
         /// <returns>True if the action is available; otherwise, false.</returns>
-        public bool Available(GoapState state)
+        public bool IsAvailable(GoapState state)
         {
             return condition.IsSatisfied(state);
         }
