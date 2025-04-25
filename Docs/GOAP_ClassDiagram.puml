@@ -1,0 +1,63 @@
+@startuml
+
+interface GoapValueInterface {
+    +Type type
+}
+
+class GoapState {
+    -Dictionary<string, GoapValueInterface> values
+    +GoapValueInterface GetValue(string stateIndex)
+    +void SetValue(string stateIndex, GoapValueInterface value)
+    +GoapState Clone()
+}
+GoapState o-- GoapValueInterface : consists of >
+
+interface ConditionInterface {
+    +bool IsSatisfied(GoapState state)
+    +double EstimateCost(GoapState state, Dictionary<string, double> costPerDiffes)
+}
+ConditionInterface ..> GoapState : reads >
+
+interface StateDiffInterface {
+    +string stateIndex
+    +GoapState Operate(GoapState state, bool overwrite)
+    +double diff
+}
+StateDiffInterface --> GoapState : operates on >
+
+class StateDiffSet {
+    -StateDiffInterface[] stateDiffs
+    +GoapState Apply(GoapState state, bool overwrite)
+}
+StateDiffSet o-- StateDiffInterface : delegates to >
+
+class GoapAction {
+    +string name
+    +ConditionInterface condition
+    +StateDiffSet stateDiffSet
+    +double cost
+    +bool IsAvailable(GoapState state)
+    +GoapState Simulate(GoapState state, bool overwrite)
+}
+GoapAction *-- ConditionInterface : delegates to >
+GoapAction *-- StateDiffSet : delegates to >
+
+class GoapResult {
+    +GoapAction[] actions
+    +double cost
+    +int length
+    +bool success
+}
+GoapResult o-- GoapAction : has >
+
+class GoapSolver {
+    -GoapAction[] actionPool
+    +GoapResult Solve(GoapState stateCurrent, ConditionInterface goal, int maxLength)
+    +void AddAction(GoapAction action)
+}
+GoapSolver --> GoapResult : Generates >
+GoapSolver --> GoapState : uses >
+GoapSolver --> ConditionInterface : uses >
+GoapSolver o-- GoapAction : stores >
+
+@enduml
