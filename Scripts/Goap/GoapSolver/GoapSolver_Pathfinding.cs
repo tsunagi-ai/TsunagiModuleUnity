@@ -135,7 +135,7 @@ namespace TsunagiModule.Goap
                     foreach (GoapAction action in actionPool.Values)
                     {
                         // if the action is available...
-                        if (action.condition.IsSatisfied(stateCurrent))
+                        if (action.condition.IsSatisfied(current.state))
                         {
                             // ...go to this state
                             GoapState nextState = action.Simulate(current.state, overwrite: false);
