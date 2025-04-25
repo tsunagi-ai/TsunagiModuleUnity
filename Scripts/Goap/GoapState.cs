@@ -13,20 +13,15 @@ namespace TsunagiModule.Goap
 
         public string[] indices => values.Keys.ToArray();
 
-        public GoapState(Dictionary<string, GoapValueInterface> values = null)
+        public GoapState(Dictionary<string, GoapValueInterface> values)
         {
-            if (values == null)
-            {
-                this.values = new Dictionary<string, GoapValueInterface>();
-            }
-            else
-            {
-                this.values = values;
-            }
+            this.values = values;
         }
 
         public GoapValueInterface GetValue(string stateIndex)
         {
+            GuardValueNull();
+
             if (values.TryGetValue(stateIndex, out GoapValueInterface value))
             {
                 return value;
@@ -39,6 +34,8 @@ namespace TsunagiModule.Goap
 
         public void SetValue(string stateIndex, GoapValueInterface value)
         {
+            GuardValueNull();
+
             values[stateIndex] = value;
         }
 
@@ -51,6 +48,8 @@ namespace TsunagiModule.Goap
 
         public bool Equals(GoapState other)
         {
+            GuardValueNull();
+
             // HACK: there could be a better data structure
             // since length of dictionary tends not to be too large,
             // this is fast enough.
@@ -76,6 +75,14 @@ namespace TsunagiModule.Goap
         {
             // HACK: there could be a better data structure
             return new GoapState { values = new Dictionary<string, GoapValueInterface>(values) };
+        }
+
+        private void GuardValueNull()
+        {
+            if (values == null)
+            {
+                values = new Dictionary<string, GoapValueInterface>();
+            }
         }
     }
 }
