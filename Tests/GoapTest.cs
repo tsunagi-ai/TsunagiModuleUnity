@@ -16,12 +16,13 @@ public class GoapTest
         GoapSolver solver = GenerateSolverWithActionPool();
 
         //run
-        GoapAction[] actions = solver.Solve(state, goal, 10);
+        GoapResult result = solver.Solve(state, goal, 10);
 
         // #1 -> #1
-        Assert.AreEqual(actions.Length, 2);
-        Assert.AreEqual(actions[0].name, ACTION_1);
-        Assert.AreEqual(actions[1].name, ACTION_1);
+        Assert.AreEqual(result.success, true);
+        Assert.AreEqual(result.length, 2);
+        Assert.AreEqual(result.actions[0].name, ACTION_1);
+        Assert.AreEqual(result.actions[1].name, ACTION_1);
     }
 
     [Test]
@@ -37,14 +38,15 @@ public class GoapTest
         GoapSolver solver = GenerateSolverWithActionPool();
 
         //run
-        GoapAction[] actions = solver.Solve(state, goal, 10);
+        GoapResult result = solver.Solve(state, goal, 10);
 
         // #1 -> #1 -> #1 -> #2
-        Assert.AreEqual(actions.Length, 4);
-        Assert.AreEqual(actions[0].name, ACTION_1);
-        Assert.AreEqual(actions[1].name, ACTION_1);
-        Assert.AreEqual(actions[2].name, ACTION_1);
-        Assert.AreEqual(actions[3].name, ACTION_2);
+        Assert.AreEqual(result.success, true);
+        Assert.AreEqual(result.length, 4);
+        Assert.AreEqual(result.actions[0].name, ACTION_1);
+        Assert.AreEqual(result.actions[1].name, ACTION_1);
+        Assert.AreEqual(result.actions[2].name, ACTION_1);
+        Assert.AreEqual(result.actions[3].name, ACTION_2);
     }
 
     [Test]
@@ -60,12 +62,13 @@ public class GoapTest
         GoapState state = GenerateState();
         GoapSolver solver = GenerateSolverWithActionPool();
 
-        GoapAction[] actions = solver.Solve(state, goal, 10);
+        GoapResult result = solver.Solve(state, goal, 10);
 
         // #3 -> #3
-        Assert.AreEqual(actions.Length, 2);
-        Assert.AreEqual(actions[0].name, ACTION_3);
-        Assert.AreEqual(actions[1].name, ACTION_3);
+        Assert.AreEqual(result.success, true);
+        Assert.AreEqual(result.length, 2);
+        Assert.AreEqual(result.actions[0].name, ACTION_3);
+        Assert.AreEqual(result.actions[1].name, ACTION_3);
     }
 
     [Test]
@@ -86,14 +89,14 @@ public class GoapTest
         );
 
         //run
-        GoapAction[] actions = solver.Solve(state, goal, 10);
+        GoapResult result = solver.Solve(state, goal, 10);
 
         // #1 -> #1 -> #1
-        Assert.AreEqual(actions.Length, 3);
-        Assert.AreEqual(actions[0].name, ACTION_1);
-        Assert.AreEqual(actions[1].name, ACTION_1);
-        ;
-        Assert.AreEqual(actions[2].name, ACTION_1);
+        Assert.AreEqual(result.success, true);
+        Assert.AreEqual(result.length, 3);
+        Assert.AreEqual(result.actions[0].name, ACTION_1);
+        Assert.AreEqual(result.actions[1].name, ACTION_1);
+        Assert.AreEqual(result.actions[2].name, ACTION_1);
     }
 
     [Test]
@@ -104,10 +107,10 @@ public class GoapTest
         GoapSolver solver = GenerateSolverWithActionPool();
 
         //run
-        GoapAction[] actions = solver.Solve(state, goal, 10);
+        GoapResult result = solver.Solve(state, goal, 10);
 
-        // empty
-        Assert.AreEqual(actions.Length, 0);
+        // error
+        Assert.AreEqual(result.success, false);
     }
 
     [Test]
@@ -118,10 +121,10 @@ public class GoapTest
         GoapSolver solver = GenerateSolverWithActionPool();
 
         //run
-        GoapAction[] actions = solver.Solve(state, goal, 10);
+        GoapResult result = solver.Solve(state, goal, 10);
 
-        // empty
-        Assert.AreEqual(actions.Length, 0);
+        // error
+        Assert.AreEqual(result.success, false);
     }
 
     private GoapState GenerateState()
