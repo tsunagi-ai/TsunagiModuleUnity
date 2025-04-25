@@ -47,11 +47,7 @@ namespace TsunagiModule.Goap
         /// </summary>
         private Dictionary<string, double> costPerDiffes = new Dictionary<string, double>();
 
-        public GoapAction[] Solve(
-            GoapState stateCurrent,
-            ConditionInterface goal,
-            int maxLength = 10
-        )
+        public GoapResult Solve(GoapState stateCurrent, ConditionInterface goal, int maxLength = 10)
         {
             // compute cost weights
             costPerDiffes = ComputeCostWeights(stateCurrent);
@@ -83,11 +79,7 @@ namespace TsunagiModule.Goap
             return largestCostPerDiff;
         }
 
-        private GoapAction[] SolveAstar(
-            GoapState stateCurrent,
-            ConditionInterface goal,
-            int maxDepth
-        )
+        private GoapResult SolveAstar(GoapState stateCurrent, ConditionInterface goal, int maxDepth)
         {
             PriorityQueue<AstarQueue> queue = new PriorityQueue<AstarQueue>();
             HashSet<GoapState> closedSet = new HashSet<GoapState>();
@@ -113,6 +105,8 @@ namespace TsunagiModule.Goap
                 if (goal.IsSatisfied(current.state))
                 {
                     // ...return the Action path
+
+                    // action list
                     List<GoapAction> actions = new List<GoapAction>();
                     while (current.action != null)
                     {
@@ -120,7 +114,15 @@ namespace TsunagiModule.Goap
                         current = current.parent;
                     }
                     actions.Reverse();
-                    return actions.ToArray();
+
+                    // create GoapResult
+                    GoapResult result = new GoapResult(
+                        actions.ToArray(),
+                        current.currentCost,
+                        true
+                    );
+
+                    return result;
                 }
 
                 // close the current node
@@ -153,8 +155,7 @@ namespace TsunagiModule.Goap
                 }
             }
 
-            // Return empty array if no solution is found
-            return new GoapAction[0];
+            return new GoapResult(null, -1, false);
         }
 
         private double EstimateCost(GoapState state, ConditionInterface goal)
