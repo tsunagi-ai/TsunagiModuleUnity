@@ -47,7 +47,7 @@ namespace TsunagiModule.Goap
         /// <param name="state">The current state.</param>
         /// <param name="costPerDiffes">Optional dictionary of costs per state difference.</param>
         /// <returns>The estimated cost of satisfying the condition.</returns>
-        public double EstimateCost(GoapState state, Dictionary<string, double> costPerDiffes = null)
+        public double EstimateCost(GoapState state, Dictionary<string, double> costPerDiffes)
         {
             double min = double.MaxValue;
             foreach (ConditionInterface condition in conditions)

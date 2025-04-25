@@ -26,7 +26,7 @@ namespace TsunagiModule.Goap
         /// <param name="state">The current GOAP state.</param>
         /// <param name="costPerDiffes">Optional dictionary of costs per state difference.</param>
         /// <returns>Always returns 0.</returns>
-        public double EstimateCost(GoapState state, Dictionary<string, double> costPerDiffes = null)
+        public double EstimateCost(GoapState state, Dictionary<string, double> costPerDiffes)
         {
             return 0;
         }

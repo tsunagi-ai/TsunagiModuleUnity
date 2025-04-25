@@ -86,7 +86,7 @@ namespace TsunagiModule.Goap
         /// <param name="costPerDiffes">Optional dictionary of costs per state difference. If null, this will assume as 1.0</param>
         /// <returns>The estimated cost of satisfying the condition.</returns>
         /// <exception cref="InvalidCastException">Thrown when the state value type does not match the expected type.</exception>
-        public double EstimateCost(GoapState state, Dictionary<string, double> costPerDiffes = null)
+        public double EstimateCost(GoapState state, Dictionary<string, double> costPerDiffes)
         {
             // if already satisfied...
             if (IsSatisfied(state))
