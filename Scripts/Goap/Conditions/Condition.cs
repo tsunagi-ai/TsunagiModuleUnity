@@ -125,11 +125,10 @@ namespace TsunagiModule.Goap
                     // compute distance
                     distance = Math.Abs(valueGivenDouble - valueComparingDouble);
                 }
+                // unknown
                 else
                 {
-                    throw new NotImplementedException(
-                        $"Condition operator '{conditionOperator}' not implemented yet."
-                    );
+                    distance = 1.0;
                 }
             }
             // if different type...
