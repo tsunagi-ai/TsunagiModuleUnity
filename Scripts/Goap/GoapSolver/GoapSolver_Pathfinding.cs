@@ -48,9 +48,15 @@ namespace TsunagiModule.Goap
             public int CompareTo(AstarQueue other)
             {
                 if (totalCost < other.totalCost)
+                {
                     return -1;
+                }
+
                 if (totalCost > other.totalCost)
+                {
                     return 1;
+                }
+
                 return 0;
             }
         }

@@ -34,7 +34,9 @@ namespace TsunagiModule.Goap.Utils
             {
                 int parentIndex = (childIndex - 1) / 2;
                 if (elements[childIndex].CompareTo(elements[parentIndex]) >= 0)
+                {
                     break;
+                }
 
                 T temp = elements[childIndex];
                 elements[childIndex] = elements[parentIndex];
@@ -52,7 +54,9 @@ namespace TsunagiModule.Goap.Utils
         public T Dequeue()
         {
             if (elements.Count == 0)
+            {
                 throw new InvalidOperationException("The priority queue is empty.");
+            }
 
             T result = elements[0];
             int lastIndex = elements.Count - 1;
@@ -70,16 +74,22 @@ namespace TsunagiModule.Goap.Utils
                     leftChildIndex < elements.Count
                     && elements[leftChildIndex].CompareTo(elements[smallestIndex]) < 0
                 )
+                {
                     smallestIndex = leftChildIndex;
+                }
 
                 if (
                     rightChildIndex < elements.Count
                     && elements[rightChildIndex].CompareTo(elements[smallestIndex]) < 0
                 )
+                {
                     smallestIndex = rightChildIndex;
+                }
 
                 if (smallestIndex == parentIndex)
+                {
                     break;
+                }
 
                 T temp = elements[parentIndex];
                 elements[parentIndex] = elements[smallestIndex];
