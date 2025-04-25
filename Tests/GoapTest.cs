@@ -129,7 +129,7 @@ public class GoapTest
         GoapState state = new GoapState();
         state.SetRawValue("int", 0);
         state.SetRawValue("float", 0f);
-        state.SetRawValue("double", 0);
+        state.SetRawValue("double", 0.0);
         state.SetRawValue("boolean", false);
         return state;
     }
