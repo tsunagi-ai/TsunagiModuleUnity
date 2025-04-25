@@ -172,8 +172,8 @@ namespace TsunagiModule.Goap
                             $"Condition operator '{conditionOperator}' is not supported for type '{typeof(T)}'."
                         );
                     }
-                case ConditionOperator.Larger:
-                case ConditionOperator.LargerOrEqual:
+                case ConditionOperator.Greater:
+                case ConditionOperator.GreaterOrEqual:
                 case ConditionOperator.Smaller:
                 case ConditionOperator.SmallerOrEqual:
                     // if operation available...
@@ -235,9 +235,9 @@ namespace TsunagiModule.Goap
 
             switch (conditionOperator)
             {
-                case ConditionOperator.Larger:
+                case ConditionOperator.Greater:
                     return valueGivenComparable.CompareTo(valueComparing) > 0;
-                case ConditionOperator.LargerOrEqual:
+                case ConditionOperator.GreaterOrEqual:
                     return valueGivenComparable.CompareTo(valueComparing) >= 0;
                 case ConditionOperator.Smaller:
                     return valueGivenComparable.CompareTo(valueComparing) < 0;

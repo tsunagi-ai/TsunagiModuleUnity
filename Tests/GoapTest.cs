@@ -28,7 +28,7 @@ public class GoapTest
     [Test]
     public void GoapTestSimple()
     {
-        Condition<int> goal = new Condition<int>("int", ConditionOperator.LargerOrEqual, 2);
+        Condition<int> goal = new Condition<int>("int", ConditionOperator.GreaterOrEqual, 2);
         GoapState state = GenerateState();
         GoapSolver solver = GenerateSolverWithActionPool();
 
@@ -50,7 +50,7 @@ public class GoapTest
     {
         Condition<float> goal = new Condition<float>(
             "float",
-            ConditionOperator.LargerOrEqual,
+            ConditionOperator.GreaterOrEqual,
             0.5f
         );
 
@@ -78,7 +78,7 @@ public class GoapTest
         ConditionInterface goal = new ConditionAnd(
             new ConditionInterface[]
             {
-                new Condition<double>("double", ConditionOperator.LargerOrEqual, 0.1),
+                new Condition<double>("double", ConditionOperator.GreaterOrEqual, 0.1),
                 new Condition<bool>("boolean", ConditionOperator.Equal, false)
             }
         );
@@ -191,7 +191,7 @@ public class GoapTest
         solver.AddAction(
             new GoapAction(
                 ACTION_2,
-                new Condition<int>("int", ConditionOperator.Larger, 2),
+                new Condition<int>("int", ConditionOperator.Greater, 2),
                 new StateDiffInterface[] { new StateDiffAddition<float>("float", 1f) },
                 2.0
             )

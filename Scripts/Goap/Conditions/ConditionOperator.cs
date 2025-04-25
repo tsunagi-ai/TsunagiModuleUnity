@@ -8,12 +8,12 @@ namespace TsunagiModule.Goap
         /// <summary>
         /// Represents a comparison where the left-hand side is larger than the right-hand side.
         /// </summary>
-        Larger,
+        Greater,
 
         /// <summary>
         /// Represents a comparison where the left-hand side is larger than or equal to the right-hand side.
         /// </summary>
-        LargerOrEqual,
+        GreaterOrEqual,
 
         /// <summary>
         /// Represents a comparison where the left-hand side is smaller than the right-hand side.
