@@ -10,7 +10,8 @@ namespace TsunagiModule.Goap
         /// <remarks>
         /// Maps action names to their corresponding <see cref="GoapAction"/> instances.
         /// </remarks>
-        private Dictionary<string, GoapAction> actionPool = new Dictionary<string, GoapAction>();
+        public readonly Dictionary<string, GoapAction> actionPool =
+            new Dictionary<string, GoapAction>();
 
         /// <summary>
         /// Adds a new action to the action pool.

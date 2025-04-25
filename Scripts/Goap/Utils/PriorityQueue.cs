@@ -15,7 +15,7 @@ namespace TsunagiModule.Goap.Utils
         /// <summary>
         /// The list of elements in the priority queue.
         /// </summary>
-        private List<T> elements = new List<T>();
+        private readonly List<T> elements = new List<T>();
 
         /// <summary>
         /// Gets the number of elements in the priority queue.
