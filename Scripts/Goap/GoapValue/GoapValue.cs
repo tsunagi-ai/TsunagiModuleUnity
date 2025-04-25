@@ -6,12 +6,16 @@ namespace TsunagiModule.Goap
     /// Value used in Goap system.
     /// </summary>
     /// <remarks>
-    /// This is implemented for support integrated control of State Control, being independent of value type.
+    /// This is implemented for State supporting as much type as possible.<br/>
+    /// You can use:<br/>
+    /// - <see cref="int"/>
+    /// - <see cref="double"/>
+    /// - <see cref="bool"/>
+    /// - <see cref="float"/>
+    /// <br/> <see cref="double"/> is recommended instead of <see cref="float"/> for accurate pathfinding.
     /// </remarks>
-    /// <summary>
-    /// Represents a value used in the GOAP system, supporting integrated control of state values independent of their type.
-    /// </summary>
-    /// <typeparam name="T">The type of the value. Must be a struct and implement <see cref="IEquatable{T}"/>.</typeparam>
+    /// <typeparam name="T">The type of the value. Must be a struct and implement <see cref="IEquatable{T}"/>.
+    /// </typeparam>
     public struct GoapValue<T> : GoapValueInterface, IEquatable<GoapValue<T>>
         where T : struct, IEquatable<T>
     {
@@ -47,6 +51,9 @@ namespace TsunagiModule.Goap
         /// <summary>
         /// Returns the hash code for the current value.
         /// </summary>
+        /// <remarks>
+        /// the GetHashCode() of the original value should be implemented
+        /// </remarks>
         /// <returns>The hash code for the current value.</returns>
         public override int GetHashCode()
         {
