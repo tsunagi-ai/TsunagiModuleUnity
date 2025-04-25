@@ -54,7 +54,7 @@ public class GoapTest
             new ConditionInterface[]
             {
                 new Condition<double>("double", ConditionOperator.LargerOrEqual, 0.1),
-                new Condition<bool>("boolean", ConditionOperator.Equal, true)
+                new Condition<bool>("boolean", ConditionOperator.Equal, false)
             }
         );
         GoapState state = GenerateState();
